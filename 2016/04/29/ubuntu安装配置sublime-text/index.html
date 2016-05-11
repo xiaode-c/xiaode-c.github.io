@@ -1,0 +1,706 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ubuntu,sublime_text," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="笔记" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="以前不愿意在ubuntu上使用sublime-text,就是因为不能输入中文的问题，当时查了查，也没找到什么靠谱的方法。于是就搁置了，最近，偶然间看到一个解决方法，就试了试，竟然成功了，有可以享受sublime的速度了，所以我就记录一下。(sublime text官网)
+安装sublime123sudo add-apt-repository ppa:webupd8team/sublime-text">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu安装配置sublime_text">
+<meta property="og:url" content="http://notes.hellopython.cn/2016/04/29/ubuntu安装配置sublime-text/index.html">
+<meta property="og:site_name" content="笔记">
+<meta property="og:description" content="以前不愿意在ubuntu上使用sublime-text,就是因为不能输入中文的问题，当时查了查，也没找到什么靠谱的方法。于是就搁置了，最近，偶然间看到一个解决方法，就试了试，竟然成功了，有可以享受sublime的速度了，所以我就记录一下。(sublime text官网)
+安装sublime123sudo add-apt-repository ppa:webupd8team/sublime-text">
+<meta property="og:updated_time" content="2016-04-29T13:26:29.030Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ubuntu安装配置sublime_text">
+<meta name="twitter:description" content="以前不愿意在ubuntu上使用sublime-text,就是因为不能输入中文的问题，当时查了查，也没找到什么靠谱的方法。于是就搁置了，最近，偶然间看到一个解决方法，就试了试，竟然成功了，有可以享受sublime的速度了，所以我就记录一下。(sublime text官网)
+安装sublime123sudo add-apt-repository ppa:webupd8team/sublime-text">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> ubuntu安装配置sublime_text | 笔记 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="http://s6.cnzz.com/stat.php?id=1258007869&web_id=1258007869" type="text/javascript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">笔记</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">生命在于折腾</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                ubuntu安装配置sublime_text
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-29T21:09:36+08:00" content="2016-04-29">
+              2016-04-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/04/29/ubuntu安装配置sublime-text/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/29/ubuntu安装配置sublime-text/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>以前不愿意在ubuntu上使用sublime-text,就是因为不能输入中文的问题，当时查了查，也没找到什么靠谱的方法。于是就搁置了，最近，偶然间看到一个解决方法，就试了试，竟然成功了，有可以享受sublime的速度了，所以我就记录一下。(<a href="http://www.sublimetext.com/" target="_blank" rel="external">sublime text官网</a>)</p>
+<h2 id="安装sublime"><a href="#安装sublime" class="headerlink" title="安装sublime"></a>安装sublime</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:webupd8team/sublime-text-3</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install sublime-text-installer</span><br></pre></td></tr></table></figure>
+<p>在安装完成之后我们就可以正常使用了，下面解决中文输入的问题。</p>
+<h2 id="解决无法输入中文的问题"><a href="#解决无法输入中文的问题" class="headerlink" title="解决无法输入中文的问题"></a>解决无法输入中文的问题</h2><h3 id="安装好环境"><a href="#安装好环境" class="headerlink" title="安装好环境"></a>安装好环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install gtk+-2.0</span><br></pre></td></tr></table></figure>
+<h3 id="新建文件：sublime-imfix-c"><a href="#新建文件：sublime-imfix-c" class="headerlink" title="新建文件：sublime_imfix.c"></a>新建文件：sublime_imfix.c</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">sublime-imfix.c</span><br><span class="line">Use LD_PRELOAD to interpose some function to fix sublime input method support for linux.</span><br><span class="line">By Cjacker Huang</span><br><span class="line"></span><br><span class="line">gcc -shared -o libsublime-imfix.so sublime-imfix.c `pkg-config --libs --cflags gtk+-2.0` -fPIC</span><br><span class="line">LD_PRELOAD=./libsublime-imfix.so subl</span><br><span class="line">*/</span><br><span class="line">#include &lt;gtk/gtk.h&gt;</span><br><span class="line">#include &lt;gdk/gdkx.h&gt;</span><br><span class="line">typedef GdkSegment GdkRegionBox;</span><br><span class="line"></span><br><span class="line">struct _GdkRegion</span><br><span class="line">&#123;</span><br><span class="line">  long size;</span><br><span class="line">  long numRects;</span><br><span class="line">  GdkRegionBox *rects;</span><br><span class="line">  GdkRegionBox extents;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">GtkIMContext *local_context;</span><br><span class="line"></span><br><span class="line">void</span><br><span class="line">gdk_region_get_clipbox (const GdkRegion *region,</span><br><span class="line">            GdkRectangle    *rectangle)</span><br><span class="line">&#123;</span><br><span class="line">  g_return_if_fail (region != NULL);</span><br><span class="line">  g_return_if_fail (rectangle != NULL);</span><br><span class="line"></span><br><span class="line">  rectangle-&gt;x = region-&gt;extents.x1;</span><br><span class="line">  rectangle-&gt;y = region-&gt;extents.y1;</span><br><span class="line">  rectangle-&gt;width = region-&gt;extents.x2 - region-&gt;extents.x1;</span><br><span class="line">  rectangle-&gt;height = region-&gt;extents.y2 - region-&gt;extents.y1;</span><br><span class="line">  GdkRectangle rect;</span><br><span class="line">  rect.x = rectangle-&gt;x;</span><br><span class="line">  rect.y = rectangle-&gt;y;</span><br><span class="line">  rect.width = 0;</span><br><span class="line">  rect.height = rectangle-&gt;height;</span><br><span class="line">  //The caret width is 2;</span><br><span class="line">  //Maybe sometimes we will make a mistake, but for most of the time, it should be the caret.</span><br><span class="line">  if(rectangle-&gt;width == 2 &amp;&amp; GTK_IS_IM_CONTEXT(local_context)) &#123;</span><br><span class="line">        gtk_im_context_set_cursor_location(local_context, rectangle);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//this is needed, for example, if you input something in file dialog and return back the edit area</span><br><span class="line">//context will lost, so here we set it again.</span><br><span class="line"></span><br><span class="line">static GdkFilterReturn event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer im_context)</span><br><span class="line">&#123;</span><br><span class="line">    XEvent *xev = (XEvent *)xevent;</span><br><span class="line">    if(xev-&gt;type == KeyRelease &amp;&amp; GTK_IS_IM_CONTEXT(im_context)) &#123;</span><br><span class="line">       GdkWindow * win = g_object_get_data(G_OBJECT(im_context),&quot;window&quot;);</span><br><span class="line">       if(GDK_IS_WINDOW(win))</span><br><span class="line">         gtk_im_context_set_client_window(im_context, win);</span><br><span class="line">    &#125;</span><br><span class="line">    return GDK_FILTER_CONTINUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void gtk_im_context_set_client_window (GtkIMContext *context,</span><br><span class="line">          GdkWindow    *window)</span><br><span class="line">&#123;</span><br><span class="line">  GtkIMContextClass *klass;</span><br><span class="line">  g_return_if_fail (GTK_IS_IM_CONTEXT (context));</span><br><span class="line">  klass = GTK_IM_CONTEXT_GET_CLASS (context);</span><br><span class="line">  if (klass-&gt;set_client_window)</span><br><span class="line">    klass-&gt;set_client_window (context, window);</span><br><span class="line"></span><br><span class="line">  if(!GDK_IS_WINDOW (window))</span><br><span class="line">    return;</span><br><span class="line">  g_object_set_data(G_OBJECT(context),&quot;window&quot;,window);</span><br><span class="line">  int width = gdk_window_get_width(window);</span><br><span class="line">  int height = gdk_window_get_height(window);</span><br><span class="line">  if(width != 0 &amp;&amp; height !=0) &#123;</span><br><span class="line">    gtk_im_context_focus_in(context);</span><br><span class="line">    local_context = context;</span><br><span class="line">  &#125;</span><br><span class="line">  gdk_window_add_filter (window, event_filter, context);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="编译成共享库"><a href="#编译成共享库" class="headerlink" title="编译成共享库"></a>编译成共享库</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -shared -o libsublime-imfix.so sublime_imfix.c  `pkg-config --libs --cflags gtk+-2.0` -fPIC</span><br></pre></td></tr></table></figure>
+<p>以下命令会打开sublime，查看是否可以输入中文<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LD_PRELOAD=./libsublime-imfix.so subl</span><br></pre></td></tr></table></figure></p>
+<p>若可以，执行一下命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mv libsublime-imfix.so /opt/sublime_text/</span><br></pre></td></tr></table></figure></p>
+<h3 id="修改-usr-share-applications-sublime-text-desktop"><a href="#修改-usr-share-applications-sublime-text-desktop" class="headerlink" title="修改/usr/share/applications/sublime-text.desktop"></a>修改/usr/share/applications/sublime-text.desktop</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /usr/share/applications/sublime-text.desktop</span><br></pre></td></tr></table></figure>
+<p>我在进行这一步时，这个文件是不存在的，直接添加以下代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Desktop Entry]</span><br><span class="line">.........</span><br><span class="line">Exec=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text %F</span><br><span class="line">.........</span><br><span class="line"></span><br><span class="line">[Desktop Action Window]</span><br><span class="line">.........</span><br><span class="line">Exec=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text -n</span><br><span class="line">.........</span><br><span class="line"></span><br><span class="line">[Desktop Action Document]</span><br><span class="line">.........</span><br><span class="line">Exec=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text --command new_file</span><br><span class="line">.........</span><br></pre></td></tr></table></figure>
+<h3 id="修改-usr-bin-subl："><a href="#修改-usr-bin-subl：" class="headerlink" title="修改 /usr/bin/subl："></a>修改 /usr/bin/subl：</h3><p>将里面的内容替换为如下代码（要用管理员权限）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># !/bin/sh</span><br><span class="line">export LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so</span><br><span class="line">exec /opt/sublime_text/sublime_text &quot;$@&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="一些基本配置"><a href="#一些基本配置" class="headerlink" title="一些基本配置"></a>一些基本配置</h3><p>在<code>Preferences - Settings - User</code>文件中里面加入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;font_face&quot;: &quot;Dejavu Sans Mono&quot;, //设置字体</span><br><span class="line">&quot;font_size&quot;: 12,  //设置字体大小</span><br><span class="line">&quot;translate_tabs_to_spaces&quot;: true,  //Tab对齐转化为空格对齐，tab_size 控制转化比例</span><br><span class="line">&quot;tab_size&quot;: 4,</span><br><span class="line">&quot;trim_trailing_white_space_on_save&quot;: true, //自动移除行尾多余空格</span><br><span class="line">&quot;save_on_focus_lost&quot;: true,  //窗口失去焦后立即保存文件</span><br><span class="line">&quot;bold_folder_labels&quot;: true, //侧栏文件夹加粗</span><br></pre></td></tr></table></figure>
+<h2 id="一些好用的插件"><a href="#一些好用的插件" class="headerlink" title="一些好用的插件"></a>一些好用的插件</h2><ul>
+<li><p>Package Control</p>
+<p>  用来安装其它插件，安装方法可以去<a href="https://packagecontrol.io/installation" target="_blank" rel="external">Package Control</a>查看，注意Sublime Text的版本问题。</p>
+</li>
+<li><p>Emmet</p>
+<p>  前端神器</p>
+</li>
+<li><p>FileHeader</p>
+<p>  自动创建文件开头模板，并且会根据最后的保存时间修改更新时间</p>
+</li>
+<li><p>AllAutocomplete</p>
+<p>  Sublime Text 默认的 Autocomplete 功能只考虑当前的文件，而 AllAutocomplete 搜索所有打开的文件来寻找匹配的词。</p>
+</li>
+<li><p>Terminal</p>
+<p>  打开在当前文件所在的目录的终端，默认情况下，它设置按 Ctrl / Cmd + Shift + T 键的快捷方式打开终端。这也是<strong>打开上次关闭的文件</strong>的快捷键，你需要修改快捷键来兼容两个功能<br>等等还有很多好用的插件，可以自行搜索</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ubuntu/" rel="tag">#ubuntu</a>
+          
+            <a href="/tags/sublime-text/" rel="tag">#sublime_text</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/21/Docker学习笔记一/" rel="next" title="Docker学习笔记一">
+                <i class="fa fa-chevron-left"></i> Docker学习笔记一
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/29/Zeal-linux版dash/" rel="prev" title="Zeal-linux版dash">
+                Zeal-linux版dash <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/04/29/ubuntu安装配置sublime-text/"
+     data-title="ubuntu安装配置sublime_text"
+     data-content=""
+     data-url="http://notes.hellopython.cn/2016/04/29/ubuntu安装配置sublime-text/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/04/29/ubuntu安装配置sublime-text/"
+           data-title="ubuntu安装配置sublime_text" data-url="http://notes.hellopython.cn/2016/04/29/ubuntu安装配置sublime-text/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="gdb" />
+          <p class="site-author-name" itemprop="name">gdb</p>
+          <p class="site-description motion-element" itemprop="description">生命在于折腾</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">17</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装sublime"><span class="nav-number">1.</span> <span class="nav-text">安装sublime</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决无法输入中文的问题"><span class="nav-number">2.</span> <span class="nav-text">解决无法输入中文的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装好环境"><span class="nav-number">2.1.</span> <span class="nav-text">安装好环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新建文件：sublime-imfix-c"><span class="nav-number">2.2.</span> <span class="nav-text">新建文件：sublime_imfix.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译成共享库"><span class="nav-number">2.3.</span> <span class="nav-text">编译成共享库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改-usr-share-applications-sublime-text-desktop"><span class="nav-number">2.4.</span> <span class="nav-text">修改/usr/share/applications/sublime-text.desktop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改-usr-bin-subl："><span class="nav-number">2.5.</span> <span class="nav-text">修改 /usr/bin/subl：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些基本配置"><span class="nav-number">2.6.</span> <span class="nav-text">一些基本配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一些好用的插件"><span class="nav-number">3.</span> <span class="nav-text">一些好用的插件</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gdb</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"saehexo"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+<script type="text/javascript" async src="//push.zhanzhang.baidu.com/push.js">
+</script>
+
+
+</body>
+</html>

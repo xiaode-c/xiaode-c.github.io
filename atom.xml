@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>笔记</title>
+  <subtitle>生命在于折腾</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://notes.hellopython.cn/"/>
+  <updated>2016-05-10T14:31:02.672Z</updated>
+  <id>http://notes.hellopython.cn/</id>
+  
+  <author>
+    <name>gdb</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>docker学习笔记之容器</title>
+    <link href="http://notes.hellopython.cn/2016/05/10/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E5%AE%B9%E5%99%A8/"/>
+    <id>http://notes.hellopython.cn/2016/05/10/docker学习笔记之容器/</id>
+    <published>2016-05-10T14:17:01.000Z</published>
+    <updated>2016-05-10T14:31:02.672Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;启动容器&quot;&gt;&lt;a href=&quot;#启动容器&quot; class=&quot;headerlink&quot; title=&quot;启动容器&quot;&gt;&lt;/a&gt;启动容器&lt;/h2&gt;&lt;p&gt;docker容器离不开docker镜像，容器以镜像为模板启动的，会在只读的镜像层上挂载一层可读写层，镜像本身是不变的。&lt;/p&gt;
+&lt;p&gt;启动一个新容器很简单&lt;br&gt;eg:&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker run ubuntu:latest /bin/echo &amp;quot;hello world&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;以上命令运行一个容器，然后在容器中执行&lt;code&gt;/bin/echo &amp;quot;hello world&amp;quot;&lt;/code&gt;后终止容器&lt;br&gt;eg2:&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker run -i -t ubuntu:latest /bin/bash&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;以上会交互式的启动容器的bash,就像本地linux的终端一样，其中&lt;code&gt;-t&lt;/code&gt;指让docker分配一个伪终端，绑定到容器的标准输出上，&lt;code&gt;-i&lt;/code&gt;让容器的标准输出保持打开，这样就可以达到本地bash基本一样的效果&lt;/p&gt;
+&lt;p&gt;eg3:&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker run -d ubuntu:latest /bin/bash&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;以上称之为守护态运行，容器会在后台运行，返回该容器的id,可以使用&lt;code&gt;docker ps&lt;/code&gt;来查看正在运行的镜像，就可以看到在后台运行的容器.&lt;code&gt;docker logs　&amp;lt;contain_name&amp;gt;&lt;/code&gt;可以用来查看容器的日志信息&lt;/p&gt;
+&lt;p&gt;启动停止的容器&lt;br&gt;使用&lt;code&gt;docker ps -a&lt;/code&gt;可以查看当前所有的容器，找到你想启动的容器&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker start &amp;lt;container_id&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;终止容器&quot;&gt;&lt;a href=&quot;#终止容器&quot; class=&quot;headerlink&quot; title=&quot;终止容器&quot;&gt;&lt;/a&gt;终止容器&lt;/h2&gt;&lt;p&gt;容器会在执行的应用终结后自动停止，若启动的是bash可通过exit退出&lt;/p&gt;
+&lt;p&gt;或者使用&lt;code&gt;docker stop&lt;/code&gt;直接终止运行中容器&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker stop &amp;lt;container_id&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;##进入容器&lt;br&gt;当容器进入守护态后，有以下方法可以进入容器执行操作&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;attach&lt;/li&gt;
+&lt;li&gt;nsenter&lt;/li&gt;
+&lt;li&gt;…待补充&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;容器的导出和载入&quot;&gt;&lt;a href=&quot;#容器的导出和载入&quot; class=&quot;headerlink&quot; title=&quot;容器的导出和载入&quot;&gt;&lt;/a&gt;容器的导出和载入&lt;/h2&gt;&lt;h2 id=&quot;导出&quot;&gt;&lt;a href=&quot;#导出&quot; class=&quot;headerlink&quot; title=&quot;导出&quot;&gt;&lt;/a&gt;导出&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker export &amp;lt;导出文件名.tar&amp;gt; &amp;lt;container_name&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;导入&quot;&gt;&lt;a href=&quot;#导入&quot; class=&quot;headerlink&quot; title=&quot;导入&quot;&gt;&lt;/a&gt;导入&lt;/h2&gt;&lt;p&gt;从导出的&lt;strong&gt;容器&lt;/strong&gt;快照，载入为&lt;strong&gt;镜像&lt;/strong&gt;&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo cat &amp;lt;导入文件名.tar&amp;gt; | docker import - &amp;lt;myimage&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;删除容器&quot;&gt;&lt;a href=&quot;#删除容器&quot; class=&quot;headerlink&quot; title=&quot;删除容器&quot;&gt;&lt;/a&gt;删除容器&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker rm &amp;lt;container_name&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;:删除镜像用的是&lt;code&gt;docker rmi &amp;lt;image_name&amp;gt;&lt;/code&gt;,若要删除一个执行中的容器需要使用-f&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;启动容器&quot;&gt;&lt;a href=&quot;#启动容器&quot; class=&quot;headerlink&quot; title=&quot;启动容器&quot;&gt;&lt;/a&gt;启动容器&lt;/h2&gt;&lt;p&gt;docker容器离不开docker镜像，容器以镜像为模板启动的，会在只读的镜像层上挂载一层可读写层，镜像本身是不变的。&lt;/p
+    
+    </summary>
+    
+      <category term="docker" scheme="http://notes.hellopython.cn/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="http://notes.hellopython.cn/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>docker学习笔记之镜像</title>
+    <link href="http://notes.hellopython.cn/2016/05/10/docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E9%95%9C%E5%83%8F/"/>
+    <id>http://notes.hellopython.cn/2016/05/10/docker学习笔记之镜像/</id>
+    <published>2016-05-10T14:11:31.000Z</published>
+    <updated>2016-05-10T14:12:56.400Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;Docker镜像&quot;&gt;&lt;a href=&quot;#Docker镜像&quot; class=&quot;headerlink&quot; title=&quot;Docker镜像&quot;&gt;&lt;/a&gt;Docker镜像&lt;/h1&gt;&lt;h2 id=&quot;获取镜像&quot;&gt;&lt;a href=&quot;#获取镜像&quot; class=&quot;headerlink&quot; title=&quot;获取镜像&quot;&gt;&lt;/a&gt;获取镜像&lt;/h2&gt;&lt;p&gt;镜像下载的命令是：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker pull NAME[:TAG]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;NAME指镜像名，TAG指镜像标签,如不指定TAG，则下载最新镜像&lt;/p&gt;
+&lt;p&gt;例如，以下两个命令是相同的：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo docker pull ubuntu&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo docker pull ubuntu:latest&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;也可以指定其它服务器的仓库&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo docker pull dl.dockerpool.com:5000/ubuntu&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;其中的&lt;code&gt;dl.dockerpool.com:5000&lt;/code&gt;就是注册服务器,默认的注册服务器是&lt;code&gt;registry.hub.docker.com&lt;/code&gt;,可以不写&lt;/p&gt;
+&lt;h2 id=&quot;查看本地镜像&quot;&gt;&lt;a href=&quot;#查看本地镜像&quot; class=&quot;headerlink&quot; title=&quot;查看本地镜像&quot;&gt;&lt;/a&gt;查看本地镜像&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo docker images&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xo1su.com1.z0.glb.clouddn.com/docker-images.png&quot; alt=&quot;docker-images&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;REPOSITORY: 表示来自于那个仓库&lt;/li&gt;
+&lt;li&gt;TAG： 镜像的标签&lt;/li&gt;
+&lt;li&gt;IMAGE ID： 镜像的ID号(镜像唯一标识)&lt;/li&gt;
+&lt;li&gt;CREATED： 镜像创建时间&lt;/li&gt;
+&lt;li&gt;SIZE： 镜像大小&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;获取镜像详细信息&quot;&gt;&lt;a href=&quot;#获取镜像详细信息&quot; class=&quot;headerlink&quot; title=&quot;获取镜像详细信息&quot;&gt;&lt;/a&gt;获取镜像详细信息&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo docker inspect &amp;lt;镜像ID(前几个字符就行，只要能区分开)&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;搜寻镜像&quot;&gt;&lt;a href=&quot;#搜寻镜像&quot; class=&quot;headerlink&quot; title=&quot;搜寻镜像&quot;&gt;&lt;/a&gt;搜寻镜像&lt;/h2&gt;&lt;p&gt;&lt;code&gt;docker search&lt;/code&gt;用来搜索&lt;br&gt;参数：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;--automated=false   #仅显示自动常见的镜像&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;--s, --stars=&amp;lt;num&amp;gt;   #显示几星级的镜像&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;创建镜像&quot;&gt;&lt;a href=&quot;#创建镜像&quot; class=&quot;headerlink&quot; title=&quot;创建镜像&quot;&gt;&lt;/a&gt;创建镜像&lt;/h2&gt;&lt;h3 id=&quot;基于已有容器创建镜像&quot;&gt;&lt;a href=&quot;#基于已有容器创建镜像&quot; class=&quot;headerlink&quot; title=&quot;基于已有容器创建镜像&quot;&gt;&lt;/a&gt;基于已有容器创建镜像&lt;/h3&gt;&lt;p&gt;在对正在运行中的容器进行更改之后，可以使用以下命令创建一个&lt;strong&gt;新镜像&lt;/strong&gt;&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker commit [options] &amp;lt;running_container&amp;gt; [Resposity[:tag]]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;选项：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;-a, --author=&amp;quot;&amp;quot;   作者&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-m， --message=&amp;quot;&amp;quot;  提交说明信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;-p, --pause=true   提交时暂停容器运行&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;创建成功后，返回镜像ID&lt;/p&gt;
+&lt;h3 id=&quot;基于Dockerfile创建镜像&quot;&gt;&lt;a href=&quot;#基于Dockerfile创建镜像&quot; class=&quot;headerlink&quot; title=&quot;基于Dockerfile创建镜像&quot;&gt;&lt;/a&gt;基于Dockerfile创建镜像&lt;/h3&gt;&lt;p&gt;Docker基本语法&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;FROM    	指定某个镜像为基础镜像&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MAINTAINER 	维护者&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;RUN			要在创建中运行的命令,安装软件&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;ADD			复制本地文件到镜像中&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;EXPOSE  	向外部开放端口&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;CMD 		容器启动后运行的命令，一个dockerfile只能有一个，多条只执行最后一条&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;ENV			设置环境变量&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#			注释&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;...&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;简单例子：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;# Dockerfile&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;# This is my image&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;FROM ubuntu:latest&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;MAINTAINER your_name &amp;lt;your_email&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;RUN apt-get update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;RUN apt-get install vim&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;RUN cd ~&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;RUN touch README.txt&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;// 暴露容器的80端口&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;EXPOSE 80&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;CMD echo hello world&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;Docker写完之后，在当前目录下执行build命令来构建镜像，&lt;code&gt;-t&lt;/code&gt;用来添加标签&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker build -t=&amp;quot;mydockerimage&amp;quot; .&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;注意最后有一个点，指的是的Dockerfile所在目录，即当前目录下，可以换成其它&lt;/p&gt;
+&lt;h3 id=&quot;从本地导入&quot;&gt;&lt;a href=&quot;#从本地导入&quot; class=&quot;headerlink&quot; title=&quot;从本地导入&quot;&gt;&lt;/a&gt;从本地导入&lt;/h3&gt;&lt;p&gt;还有一种方法就是从本地导入镜像，可以使用&lt;a href=&quot;http://openvz.org/Download/templates/precreated&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;下载openvz的模板&lt;/a&gt;来创建&lt;/p&gt;
+&lt;p&gt;然后使用import命令导入&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo cat &amp;lt;templates_name&amp;gt; | docker import - &amp;lt;myimage&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;添加标签&quot;&gt;&lt;a href=&quot;#添加标签&quot; class=&quot;headerlink&quot; title=&quot;添加标签&quot;&gt;&lt;/a&gt;添加标签&lt;/h2&gt;&lt;p&gt;&lt;code&gt;docker tag &amp;lt;IMAGE&amp;gt; &amp;lt;tagname&amp;gt;&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;镜像的导入和导出&quot;&gt;&lt;a href=&quot;#镜像的导入和导出&quot; class=&quot;headerlink&quot; title=&quot;镜像的导入和导出&quot;&gt;&lt;/a&gt;镜像的导入和导出&lt;/h2&gt;&lt;h3 id=&quot;导出镜像&quot;&gt;&lt;a href=&quot;#导出镜像&quot; class=&quot;headerlink&quot; title=&quot;导出镜像&quot;&gt;&lt;/a&gt;导出镜像&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker save -o &amp;lt;导出文件的名字.tar&amp;gt; &amp;lt;image_name&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;导入镜像&quot;&gt;&lt;a href=&quot;#导入镜像&quot; class=&quot;headerlink&quot; title=&quot;导入镜像&quot;&gt;&lt;/a&gt;导入镜像&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker load --input &amp;lt;载入文件名字.tar&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;删除镜像&quot;&gt;&lt;a href=&quot;#删除镜像&quot; class=&quot;headerlink&quot; title=&quot;删除镜像&quot;&gt;&lt;/a&gt;删除镜像&lt;/h2&gt;&lt;p&gt;&lt;code&gt;docker rmi &amp;lt;tag&amp;gt;&lt;/code&gt; 只删除该标签的镜像&lt;br&gt;&lt;code&gt;docekr rmi &amp;lt;ID&amp;gt;&lt;/code&gt;  先删除该镜像的所有标签，然后删除镜像本身&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;删除前，需要删除该镜像的所有容器，若要强行删，使用-f&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;上传镜像&quot;&gt;&lt;a href=&quot;#上传镜像&quot; class=&quot;headerlink&quot; title=&quot;上传镜像&quot;&gt;&lt;/a&gt;上传镜像&lt;/h2&gt;&lt;p&gt;使用push上传镜像到共享仓库，需要先注册docker hub账号&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;docker push &amp;lt;image_name&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Docker镜像&quot;&gt;&lt;a href=&quot;#Docker镜像&quot; class=&quot;headerlink&quot; title=&quot;Docker镜像&quot;&gt;&lt;/a&gt;Docker镜像&lt;/h1&gt;&lt;h2 id=&quot;获取镜像&quot;&gt;&lt;a href=&quot;#获取镜像&quot; class=&quot;headerlink&quot; 
+    
+    </summary>
+    
+      <category term="docker" scheme="http://notes.hellopython.cn/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="http://notes.hellopython.cn/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python之禅</title>
+    <link href="http://notes.hellopython.cn/2016/05/08/python%E4%B9%8B%E7%A6%85/"/>
+    <id>http://notes.hellopython.cn/2016/05/08/python之禅/</id>
+    <published>2016-05-08T11:15:37.000Z</published>
+    <updated>2016-05-08T11:16:34.128Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;想必了解python的人，都知道在python的交互式命令行中，执行import-this-会出现一首诗，这就是python之禅，我们应该争取能使自己做到以下这些&quot;&gt;&lt;a href=&quot;#想必了解python的人，都知道在python的交互式命令行中，执行import-this-会出现一首诗，这就是python之禅，我们应该争取能使自己做到以下这些&quot; class=&quot;headerlink&quot; title=&quot;想必了解python的人，都知道在python的交互式命令行中，执行import this,会出现一首诗，这就是python之禅，我们应该争取能使自己做到以下这些&quot;&gt;&lt;/a&gt;想必了解python的人，都知道在python的交互式命令行中，执行&lt;code&gt;import this&lt;/code&gt;,会出现一首诗，这就是python之禅，我们应该争取能使自己做到以下这些&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Beautiful is better than ugly.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Explicit is better than implicit.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Simple is better than complex.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Complex is better than complicated.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Flat is better than nested.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Sparse is better than dense.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Readability counts.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Special cases aren&amp;apos;t special enough to break the rules.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Although practicality beats purity.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Errors should never pass silently.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Unless explicitly silenced.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;In the face of ambiguity, refuse the temptation to guess.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;There should be one-- and preferably only one --obvious way to do it.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Although that way may not be obvious at first unless you&amp;apos;re Dutch.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Now is better than never.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Although never is often better than *right* now.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;If the implementation is hard to explain, it&amp;apos;s a bad idea.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;If the implementation is easy to explain, it may be a good idea.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Namespaces are one honking great idea -- let&amp;apos;s do more of those!&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;: 以下是我的翻译，由于水平有限，可能有很多错误，慎重！！！&lt;/p&gt;
+&lt;p&gt;美丽胜于丑陋&lt;br&gt;显式优于隐式&lt;br&gt;简洁胜于复杂&lt;br&gt;复杂胜于繁琐&lt;br&gt;扁平胜于嵌套&lt;br&gt;间隔胜于紧凑&lt;br&gt;可读性很重要&lt;br&gt;即便在特例的实用的情况下，也不应该违背这些规则&lt;br&gt;不要包容所有错误，除非你确定需要这样做&lt;br&gt;当存在多种可能，不要尝试去猜测&lt;br&gt;应该有一个 — — 并且最好只有一个 — — 明显的解决办法。&lt;br&gt;虽然这并不容易，因为你不是 Python 之父&lt;br&gt;如果你无法向别人描述你的方案，他就是个坏主意&lt;br&gt;如果很容易表述，那就是一个好方案&lt;br&gt;命名空间是一种绝妙的理念，我们应当多加利用&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;想必了解python的人，都知道在python的交互式命令行中，执行import-this-会出现一首诗，这就是python之禅，我们应该争取能使自己做到以下这些&quot;&gt;&lt;a href=&quot;#想必了解python的人，都知道在python的交互式命令行中，执行impor
+    
+    </summary>
+    
+      <category term="python" scheme="http://notes.hellopython.cn/categories/python/"/>
+    
+    
+      <category term="python" scheme="http://notes.hellopython.cn/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ubuntu上使用genymotion</title>
+    <link href="http://notes.hellopython.cn/2016/05/02/ubuntu%E4%B8%8A%E4%BD%BF%E7%94%A8genymotion/"/>
+    <id>http://notes.hellopython.cn/2016/05/02/ubuntu上使用genymotion/</id>
+    <published>2016-05-02T13:21:35.000Z</published>
+    <updated>2016-05-10T14:13:36.536Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;安装virtuelbox&quot;&gt;&lt;a href=&quot;#安装virtuelbox&quot; class=&quot;headerlink&quot; title=&quot;安装virtuelbox&quot;&gt;&lt;/a&gt;安装virtuelbox&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install virtualbox-qt&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;使用时遇到以下问题&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;No suitable module for running kernel found&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;解决办法：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install virtualbox-source module-assistant&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo m-a prepare&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo m-a a-i virtualbox-source&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo /etc/init.d/virtualbox restart&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;安装genymotion&quot;&gt;&lt;a href=&quot;#安装genymotion&quot; class=&quot;headerlink&quot; title=&quot;安装genymotion&quot;&gt;&lt;/a&gt;安装genymotion&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;先到genymotion官网注册一个账号&lt;/li&gt;
+&lt;li&gt;下载genymotion,到&lt;a href=&quot;https://www.genymotion.com/download&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://www.genymotion.com/download&lt;/a&gt;下载对应系统的版本&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;执行以下命令&lt;/p&gt;
+ &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;chmod +x &amp;lt;Genymotion download path&amp;gt;/genymotion-&amp;lt;version&amp;gt;_&amp;lt;arch&amp;gt;.bin&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cd &amp;lt;Genymotion download path&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;./genymotion-&amp;lt;version&amp;gt;_&amp;lt;arch&amp;gt;.bin -d &amp;lt;Genymotion installer path&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt; &lt;strong&gt;Genymotion download path&lt;/strong&gt;: genymotion的下载目录&lt;br&gt; &lt;strong&gt;Genymotion installer path&lt;/strong&gt;: genymotion的安装目录&lt;br&gt; &lt;strong&gt;genymotion -&lt;version&gt;_&lt;arch&gt;.bin&lt;/arch&gt;&lt;/version&gt;&lt;/strong&gt;: 下载的genymotion安装包&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;进入安装目录执行&lt;code&gt;./genymotion&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安装virtuelbox&quot;&gt;&lt;a href=&quot;#安装virtuelbox&quot; class=&quot;headerlink&quot; title=&quot;安装virtuelbox&quot;&gt;&lt;/a&gt;安装virtuelbox&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;
+    
+    </summary>
+    
+      <category term="linux" scheme="http://notes.hellopython.cn/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="http://notes.hellopython.cn/tags/linux/"/>
+    
+      <category term="genymotion" scheme="http://notes.hellopython.cn/tags/genymotion/"/>
+    
+      <category term="virtualbox" scheme="http://notes.hellopython.cn/tags/virtualbox/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Zeal-linux版dash</title>
+    <link href="http://notes.hellopython.cn/2016/04/29/Zeal-linux%E7%89%88dash/"/>
+    <id>http://notes.hellopython.cn/2016/04/29/Zeal-linux版dash/</id>
+    <published>2016-04-29T13:24:44.000Z</published>
+    <updated>2016-04-29T13:26:07.026Z</updated>
+    
+    <content type="html">&lt;p&gt;ZEAL 是一款离线文档浏览器,其灵感来自 OS X平台上的 Dash，目前支持 Window 和 Liunx。基于 QT5。&lt;/p&gt;
+&lt;h2 id=&quot;主要功能：&quot;&gt;&lt;a href=&quot;#主要功能：&quot; class=&quot;headerlink&quot; title=&quot;主要功能：&quot;&gt;&lt;/a&gt;主要功能：&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;可同时搜索多个文档&lt;/li&gt;
+&lt;li&gt;不依赖网络&lt;/li&gt;
+&lt;li&gt;GPL 协议开放源码&lt;/li&gt;
+&lt;li&gt;Dash 中的文档都可以在 Zeal 中使用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h2&gt;&lt;p&gt;到&lt;a href=&quot;zealdocs.org/download.html&quot;&gt;zeal的官网download页面&lt;/a&gt;，按照对应系统的方式安装&lt;/p&gt;
+&lt;p&gt;我用的是linux mint ,也就是按照ubuntu的安装方法安装：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ sudo add-apt-repository ppa:zeal-developers/ppa&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt-get update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;$ sudo apt-get install zeal&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;使用&quot;&gt;&lt;a href=&quot;#使用&quot; class=&quot;headerlink&quot; title=&quot;使用&quot;&gt;&lt;/a&gt;使用&lt;/h2&gt;&lt;p&gt;安装完成后，到&lt;code&gt;File&lt;/code&gt;–&amp;gt;&lt;code&gt;Options&lt;/code&gt;–&amp;gt;&lt;code&gt;Docsets&lt;/code&gt;中浏览下载你想要的文档。&lt;br&gt;下载后就可以搜索查找你想要的：&lt;br&gt;eg:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;string&lt;/code&gt; ：将会查找所有关于&lt;code&gt;string&lt;/code&gt;的文档&lt;br&gt;&lt;code&gt;python:string&lt;/code&gt;： 将会查找与&lt;code&gt;python&lt;/code&gt;有关的&lt;code&gt;string&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;效果&quot;&gt;&lt;a href=&quot;#效果&quot; class=&quot;headerlink&quot; title=&quot;效果&quot;&gt;&lt;/a&gt;效果&lt;/h2&gt;&lt;p&gt;使用效果：&lt;br&gt;&lt;img src=&quot;http://7xo1su.com1.z0.glb.clouddn.com/zeal.png-hellopython&quot; alt=&quot;zeal效果&quot;&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;ZEAL 是一款离线文档浏览器,其灵感来自 OS X平台上的 Dash，目前支持 Window 和 Liunx。基于 QT5。&lt;/p&gt;
+&lt;h2 id=&quot;主要功能：&quot;&gt;&lt;a href=&quot;#主要功能：&quot; class=&quot;headerlink&quot; title=&quot;主要功能：&quot;&gt;&lt;/a&gt;
+    
+    </summary>
+    
+      <category term="linux" scheme="http://notes.hellopython.cn/categories/linux/"/>
+    
+    
+      <category term="Zeal" scheme="http://notes.hellopython.cn/tags/Zeal/"/>
+    
+      <category term="linux" scheme="http://notes.hellopython.cn/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ubuntu安装配置sublime_text</title>
+    <link href="http://notes.hellopython.cn/2016/04/29/ubuntu%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEsublime-text/"/>
+    <id>http://notes.hellopython.cn/2016/04/29/ubuntu安装配置sublime-text/</id>
+    <published>2016-04-29T13:09:36.000Z</published>
+    <updated>2016-04-29T13:26:29.030Z</updated>
+    
+    <content type="html">&lt;p&gt;以前不愿意在ubuntu上使用sublime-text,就是因为不能输入中文的问题，当时查了查，也没找到什么靠谱的方法。于是就搁置了，最近，偶然间看到一个解决方法，就试了试，竟然成功了，有可以享受sublime的速度了，所以我就记录一下。(&lt;a href=&quot;http://www.sublimetext.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;sublime text官网&lt;/a&gt;)&lt;/p&gt;
+&lt;h2 id=&quot;安装sublime&quot;&gt;&lt;a href=&quot;#安装sublime&quot; class=&quot;headerlink&quot; title=&quot;安装sublime&quot;&gt;&lt;/a&gt;安装sublime&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo add-apt-repository ppa:webupd8team/sublime-text-3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get update&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install sublime-text-installer&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;在安装完成之后我们就可以正常使用了，下面解决中文输入的问题。&lt;/p&gt;
+&lt;h2 id=&quot;解决无法输入中文的问题&quot;&gt;&lt;a href=&quot;#解决无法输入中文的问题&quot; class=&quot;headerlink&quot; title=&quot;解决无法输入中文的问题&quot;&gt;&lt;/a&gt;解决无法输入中文的问题&lt;/h2&gt;&lt;h3 id=&quot;安装好环境&quot;&gt;&lt;a href=&quot;#安装好环境&quot; class=&quot;headerlink&quot; title=&quot;安装好环境&quot;&gt;&lt;/a&gt;安装好环境&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install gtk+-2.0&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;新建文件：sublime-imfix-c&quot;&gt;&lt;a href=&quot;#新建文件：sublime-imfix-c&quot; class=&quot;headerlink&quot; title=&quot;新建文件：sublime_imfix.c&quot;&gt;&lt;/a&gt;新建文件：sublime_imfix.c&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;59&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;60&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;63&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;65&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;66&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;67&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;68&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;69&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;70&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;71&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;72&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;73&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;74&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;75&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;76&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;77&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;78&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;79&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;/*&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sublime-imfix.c&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Use LD_PRELOAD to interpose some function to fix sublime input method support for linux.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;By Cjacker Huang&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;gcc -shared -o libsublime-imfix.so sublime-imfix.c `pkg-config --libs --cflags gtk+-2.0` -fPIC&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;LD_PRELOAD=./libsublime-imfix.so subl&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;*/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include &amp;lt;gtk/gtk.h&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include &amp;lt;gdk/gdkx.h&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;typedef GdkSegment GdkRegionBox;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;struct _GdkRegion&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  long size;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  long numRects;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  GdkRegionBox *rects;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  GdkRegionBox extents;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;GtkIMContext *local_context;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;gdk_region_get_clipbox (const GdkRegion *region,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            GdkRectangle    *rectangle)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  g_return_if_fail (region != NULL);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  g_return_if_fail (rectangle != NULL);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  rectangle-&amp;gt;x = region-&amp;gt;extents.x1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  rectangle-&amp;gt;y = region-&amp;gt;extents.y1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  rectangle-&amp;gt;width = region-&amp;gt;extents.x2 - region-&amp;gt;extents.x1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  rectangle-&amp;gt;height = region-&amp;gt;extents.y2 - region-&amp;gt;extents.y1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  GdkRectangle rect;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  rect.x = rectangle-&amp;gt;x;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  rect.y = rectangle-&amp;gt;y;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  rect.width = 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  rect.height = rectangle-&amp;gt;height;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  //The caret width is 2;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  //Maybe sometimes we will make a mistake, but for most of the time, it should be the caret.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  if(rectangle-&amp;gt;width == 2 &amp;amp;&amp;amp; GTK_IS_IM_CONTEXT(local_context)) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        gtk_im_context_set_cursor_location(local_context, rectangle);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//this is needed, for example, if you input something in file dialog and return back the edit area&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//context will lost, so here we set it again.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;static GdkFilterReturn event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer im_context)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    XEvent *xev = (XEvent *)xevent;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(xev-&amp;gt;type == KeyRelease &amp;amp;&amp;amp; GTK_IS_IM_CONTEXT(im_context)) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       GdkWindow * win = g_object_get_data(G_OBJECT(im_context),&amp;quot;window&amp;quot;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       if(GDK_IS_WINDOW(win))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;         gtk_im_context_set_client_window(im_context, win);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return GDK_FILTER_CONTINUE;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void gtk_im_context_set_client_window (GtkIMContext *context,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;          GdkWindow    *window)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  GtkIMContextClass *klass;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  g_return_if_fail (GTK_IS_IM_CONTEXT (context));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  klass = GTK_IM_CONTEXT_GET_CLASS (context);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  if (klass-&amp;gt;set_client_window)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    klass-&amp;gt;set_client_window (context, window);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  if(!GDK_IS_WINDOW (window))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  g_object_set_data(G_OBJECT(context),&amp;quot;window&amp;quot;,window);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  int width = gdk_window_get_width(window);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  int height = gdk_window_get_height(window);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  if(width != 0 &amp;amp;&amp;amp; height !=0) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    gtk_im_context_focus_in(context);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    local_context = context;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  gdk_window_add_filter (window, event_filter, context);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;编译成共享库&quot;&gt;&lt;a href=&quot;#编译成共享库&quot; class=&quot;headerlink&quot; title=&quot;编译成共享库&quot;&gt;&lt;/a&gt;编译成共享库&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;gcc -shared -o libsublime-imfix.so sublime_imfix.c  `pkg-config --libs --cflags gtk+-2.0` -fPIC&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;以下命令会打开sublime，查看是否可以输入中文&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;LD_PRELOAD=./libsublime-imfix.so subl&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;若可以，执行一下命令&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo mv libsublime-imfix.so /opt/sublime_text/&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;修改-usr-share-applications-sublime-text-desktop&quot;&gt;&lt;a href=&quot;#修改-usr-share-applications-sublime-text-desktop&quot; class=&quot;headerlink&quot; title=&quot;修改/usr/share/applications/sublime-text.desktop&quot;&gt;&lt;/a&gt;修改/usr/share/applications/sublime-text.desktop&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo vi /usr/share/applications/sublime-text.desktop&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;我在进行这一步时，这个文件是不存在的，直接添加以下代码&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[Desktop Entry]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;.........&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Exec=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text %F&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;.........&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[Desktop Action Window]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;.........&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Exec=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text -n&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;.........&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;[Desktop Action Document]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;.........&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Exec=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text --command new_file&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;.........&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;修改-usr-bin-subl：&quot;&gt;&lt;a href=&quot;#修改-usr-bin-subl：&quot; class=&quot;headerlink&quot; title=&quot;修改 /usr/bin/subl：&quot;&gt;&lt;/a&gt;修改 /usr/bin/subl：&lt;/h3&gt;&lt;p&gt;将里面的内容替换为如下代码（要用管理员权限）&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;# !/bin/sh&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;export LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;exec /opt/sublime_text/sublime_text &amp;quot;$@&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;一些基本配置&quot;&gt;&lt;a href=&quot;#一些基本配置&quot; class=&quot;headerlink&quot; title=&quot;一些基本配置&quot;&gt;&lt;/a&gt;一些基本配置&lt;/h3&gt;&lt;p&gt;在&lt;code&gt;Preferences - Settings - User&lt;/code&gt;文件中里面加入。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;font_face&amp;quot;: &amp;quot;Dejavu Sans Mono&amp;quot;, //设置字体&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;font_size&amp;quot;: 12,  //设置字体大小&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;translate_tabs_to_spaces&amp;quot;: true,  //Tab对齐转化为空格对齐，tab_size 控制转化比例&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;tab_size&amp;quot;: 4,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;trim_trailing_white_space_on_save&amp;quot;: true, //自动移除行尾多余空格&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;save_on_focus_lost&amp;quot;: true,  //窗口失去焦后立即保存文件&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;quot;bold_folder_labels&amp;quot;: true, //侧栏文件夹加粗&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;一些好用的插件&quot;&gt;&lt;a href=&quot;#一些好用的插件&quot; class=&quot;headerlink&quot; title=&quot;一些好用的插件&quot;&gt;&lt;/a&gt;一些好用的插件&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Package Control&lt;/p&gt;
+&lt;p&gt;  用来安装其它插件，安装方法可以去&lt;a href=&quot;https://packagecontrol.io/installation&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Package Control&lt;/a&gt;查看，注意Sublime Text的版本问题。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Emmet&lt;/p&gt;
+&lt;p&gt;  前端神器&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;FileHeader&lt;/p&gt;
+&lt;p&gt;  自动创建文件开头模板，并且会根据最后的保存时间修改更新时间&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;AllAutocomplete&lt;/p&gt;
+&lt;p&gt;  Sublime Text 默认的 Autocomplete 功能只考虑当前的文件，而 AllAutocomplete 搜索所有打开的文件来寻找匹配的词。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Terminal&lt;/p&gt;
+&lt;p&gt;  打开在当前文件所在的目录的终端，默认情况下，它设置按 Ctrl / Cmd + Shift + T 键的快捷方式打开终端。这也是&lt;strong&gt;打开上次关闭的文件&lt;/strong&gt;的快捷键，你需要修改快捷键来兼容两个功能&lt;br&gt;等等还有很多好用的插件，可以自行搜索&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;以前不愿意在ubuntu上使用sublime-text,就是因为不能输入中文的问题，当时查了查，也没找到什么靠谱的方法。于是就搁置了，最近，偶然间看到一个解决方法，就试了试，竟然成功了，有可以享受sublime的速度了，所以我就记录一下。(&lt;a href=&quot;http://w
+    
+    </summary>
+    
+      <category term="linux" scheme="http://notes.hellopython.cn/categories/linux/"/>
+    
+    
+      <category term="ubuntu" scheme="http://notes.hellopython.cn/tags/ubuntu/"/>
+    
+      <category term="sublime_text" scheme="http://notes.hellopython.cn/tags/sublime-text/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Docker学习笔记一</title>
+    <link href="http://notes.hellopython.cn/2016/03/21/Docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/"/>
+    <id>http://notes.hellopython.cn/2016/03/21/Docker学习笔记一/</id>
+    <published>2016-03-21T07:12:30.000Z</published>
+    <updated>2016-03-21T07:14:43.887Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;docker的三个核心概念&quot;&gt;&lt;a href=&quot;#docker的三个核心概念&quot; class=&quot;headerlink&quot; title=&quot;docker的三个核心概念&quot;&gt;&lt;/a&gt;docker的三个核心概念&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;镜像(Image)&lt;/li&gt;
+&lt;li&gt;容器(Container)&lt;/li&gt;
+&lt;li&gt;仓库(Repository)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;镜像&quot;&gt;&lt;a href=&quot;#镜像&quot; class=&quot;headerlink&quot; title=&quot;镜像&quot;&gt;&lt;/a&gt;镜像&lt;/h3&gt;&lt;p&gt;Docker镜像类似于虚拟机镜像，相当于Docker引擎的只读模板，Docker可以在镜像的基础上创建容器。&lt;/p&gt;
+&lt;h3 id=&quot;容器&quot;&gt;&lt;a href=&quot;#容器&quot; class=&quot;headerlink&quot; title=&quot;容器&quot;&gt;&lt;/a&gt;容器&lt;/h3&gt;&lt;p&gt;Docker容器是完整的文件系统，docker就是用它来运行应用，类似于轻量级的虚拟机，可以将其启动、开始、停止、删除等。容器从镜像启动时，docker会在镜像的最上层创建一个可写层。&lt;/p&gt;
+&lt;h3 id=&quot;仓库&quot;&gt;&lt;a href=&quot;#仓库&quot; class=&quot;headerlink&quot; title=&quot;仓库&quot;&gt;&lt;/a&gt;仓库&lt;/h3&gt;&lt;p&gt;docker仓库类似于github之类的代码仓库，是存放镜像文件的地方。docker仓库分为公开仓库（Docker Hub等）,私有仓库。&lt;/p&gt;
+&lt;h2 id=&quot;安装docker&quot;&gt;&lt;a href=&quot;#安装docker&quot; class=&quot;headerlink&quot; title=&quot;安装docker&quot;&gt;&lt;/a&gt;安装docker&lt;/h2&gt;&lt;p&gt;我用的是ubuntu 14.04系统,安装docker很方便。&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;which curl&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#检查curl包有没有安装,如果curl没有安装的话，更新apt源之后，安装curl包。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get update $ sudo apt-get install curl&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#获得最新的docker安装包&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;curl -sSL https://get.docker.com/ | sh &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#shell会提示你输入sudo的密码，然后开始执行安装过程。&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo docker run hello-world&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#确认Docker是否安装成功,这个命令会下载一个测试用的镜像并启动一个容器运行它。&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;windows下可以到官网&lt;a href=&quot;https://www.docker.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://www.docker.com/&lt;/a&gt;直接下载Boot2Docker&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;docker的三个核心概念&quot;&gt;&lt;a href=&quot;#docker的三个核心概念&quot; class=&quot;headerlink&quot; title=&quot;docker的三个核心概念&quot;&gt;&lt;/a&gt;docker的三个核心概念&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;镜像(Image)&lt;/li&gt;
+&lt;li&gt;容
+    
+    </summary>
+    
+      <category term="记录" scheme="http://notes.hellopython.cn/categories/%E8%AE%B0%E5%BD%95/"/>
+    
+      <category term="docker" scheme="http://notes.hellopython.cn/categories/%E8%AE%B0%E5%BD%95/docker/"/>
+    
+    
+      <category term="docker" scheme="http://notes.hellopython.cn/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python单例模式</title>
+    <link href="http://notes.hellopython.cn/2016/03/20/python%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://notes.hellopython.cn/2016/03/20/python单例模式/</id>
+    <published>2016-03-20T06:04:36.000Z</published>
+    <updated>2016-03-20T06:06:17.233Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;单例模式&quot;&gt;&lt;a href=&quot;#单例模式&quot; class=&quot;headerlink&quot; title=&quot;单例模式&quot;&gt;&lt;/a&gt;单例模式&lt;/h2&gt;&lt;p&gt;单例模式是一种常见的设计模式，在他的核心结构里只包含一个被称为单例的特殊类。这种模式可以保证系统中的一个类只有一个实例，并易于外部访问，从而控制实例个数节约系统资源。&lt;/p&gt;
+&lt;h2 id=&quot;实现方式&quot;&gt;&lt;a href=&quot;#实现方式&quot; class=&quot;headerlink&quot; title=&quot;实现方式&quot;&gt;&lt;/a&gt;实现方式&lt;/h2&gt;&lt;h3 id=&quot;使用new方法&quot;&gt;&lt;a href=&quot;#使用new方法&quot; class=&quot;headerlink&quot; title=&quot;使用new方法&quot;&gt;&lt;/a&gt;使用&lt;strong&gt;new&lt;/strong&gt;方法&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;class Singleton(object):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    def __new__(cls, *args, **kw):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if not hasattr(cls, &amp;apos;_instance&amp;apos;):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            orig = super(Singleton, cls)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            cls._instance = orig.__new__(cls, *args, **kw)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return cls._instance&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;class MyClass(Singleton):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    a = 1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;共享属性&quot;&gt;&lt;a href=&quot;#共享属性&quot; class=&quot;headerlink&quot; title=&quot;共享属性&quot;&gt;&lt;/a&gt;共享属性&lt;/h3&gt;&lt;p&gt;创建实例是把所有实例的&lt;strong&gt;dict&lt;/strong&gt;指向同一个字典，这样他们将拥有相同的属性和方法&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;class Singleton(object):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    _state = &amp;#123;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    def __new__(cls, *args, **kw):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        ob = super(Singleton, cls).__new__(cls, *args, **kw)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        ob.__dict__ = cls._state&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return ob&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;class MyClass(Singleton):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    a = 1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;装饰器&quot;&gt;&lt;a href=&quot;#装饰器&quot; class=&quot;headerlink&quot; title=&quot;装饰器&quot;&gt;&lt;/a&gt;装饰器&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;def singleton(cls, *args, **kw):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    instances = &amp;#123;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    def getinstance():&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if cls not in instances:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            instances[cls] = cls(*args, **kw)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return instances[cls]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     return getinstance&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;@singleton&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;class MyClass:&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;模块&quot;&gt;&lt;a href=&quot;#模块&quot; class=&quot;headerlink&quot; title=&quot;模块&quot;&gt;&lt;/a&gt;模块&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;# singleton.py&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;class Singleton(object):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    def foo(self):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    	pass&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;singleton = Singleton()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;使用&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;from singleton import singleton&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;singleton.foo()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;即singleton.py中的类Singleton只产生了一个实例。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;单例模式&quot;&gt;&lt;a href=&quot;#单例模式&quot; class=&quot;headerlink&quot; title=&quot;单例模式&quot;&gt;&lt;/a&gt;单例模式&lt;/h2&gt;&lt;p&gt;单例模式是一种常见的设计模式，在他的核心结构里只包含一个被称为单例的特殊类。这种模式可以保证系统中的一个类只有一个实例，并易
+    
+    </summary>
+    
+      <category term="python" scheme="http://notes.hellopython.cn/categories/python/"/>
+    
+    
+      <category term="python" scheme="http://notes.hellopython.cn/tags/python/"/>
+    
+      <category term="单例模式" scheme="http://notes.hellopython.cn/tags/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python的三种方法</title>
+    <link href="http://notes.hellopython.cn/2016/03/19/python%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95/"/>
+    <id>http://notes.hellopython.cn/2016/03/19/python的三种方法/</id>
+    <published>2016-03-19T15:38:15.000Z</published>
+    <updated>2016-03-19T15:42:35.073Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;静态方法、类方法、实例方法的不同&quot;&gt;&lt;a href=&quot;#静态方法、类方法、实例方法的不同&quot; class=&quot;headerlink&quot; title=&quot;静态方法、类方法、实例方法的不同&quot;&gt;&lt;/a&gt;静态方法、类方法、实例方法的不同&lt;/h2&gt;&lt;p&gt;首先来看一个类&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#coding:utf-8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;class Fun():&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    #实例方法&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    def fun(self, x):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        print &amp;quot;executing fun(%s, %s)&amp;quot; % (self, x)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    #类方法&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    @classmethod&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    def class_fun(cls, x):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        print &amp;quot;executing class_fun(%s, %s)&amp;quot; % (cls, x)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    #静态方法&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    @staticmethod&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    def static_fun(x):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        print &amp;quot;executing static_fun(%s)&amp;quot; % x&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;f = Fun()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;上面self指的是实例， cls指的是类，也就是说实例方法是绑定了实例的，因此必须由实例来调用它；而类方法是绑定这类的。而静态方法谁都没绑定，与类外的普通方法很像，只不过需要用f或Fun来调用。&lt;/p&gt;
+&lt;p&gt;如下&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;column&lt;/th&gt;
+&lt;th&gt;column&lt;/th&gt;
+&lt;th&gt;column&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;f=Fun()&lt;/td&gt;
+&lt;td&gt;f.fun(x)&lt;/td&gt;
+&lt;td&gt;f.class_fun(x)&lt;/td&gt;
+&lt;td&gt;f.statis_fun(x)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fun&lt;/td&gt;
+&lt;td&gt;不可用&lt;/td&gt;
+&lt;td&gt;Fun.class_fun(x)&lt;/td&gt;
+&lt;td&gt;Fun.statis_fun(x)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;静态方法、类方法、实例方法的不同&quot;&gt;&lt;a href=&quot;#静态方法、类方法、实例方法的不同&quot; class=&quot;headerlink&quot; title=&quot;静态方法、类方法、实例方法的不同&quot;&gt;&lt;/a&gt;静态方法、类方法、实例方法的不同&lt;/h2&gt;&lt;p&gt;首先来看一个类&lt;/p&gt;
+&lt;f
+    
+    </summary>
+    
+      <category term="python" scheme="http://notes.hellopython.cn/categories/python/"/>
+    
+      <category term="记录" scheme="http://notes.hellopython.cn/categories/python/%E8%AE%B0%E5%BD%95/"/>
+    
+    
+      <category term="python" scheme="http://notes.hellopython.cn/tags/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>sae上mysql问题</title>
+    <link href="http://notes.hellopython.cn/2016/03/19/sae%E4%B8%8Amysql%E9%97%AE%E9%A2%98/"/>
+    <id>http://notes.hellopython.cn/2016/03/19/sae上mysql问题/</id>
+    <published>2016-03-19T04:38:34.000Z</published>
+    <updated>2016-03-19T04:40:08.193Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;mysql数据库问题&quot;&gt;&lt;a href=&quot;#mysql数据库问题&quot; class=&quot;headerlink&quot; title=&quot;mysql数据库问题&quot;&gt;&lt;/a&gt;mysql数据库问题&lt;/h2&gt;&lt;p&gt;我在sae上部署自己写的flask应用时，有时会出现&lt;code&gt;OperationalError: (OperationalError) (2006, &amp;#39;MySQL server has gone away&amp;#39;) &amp;#39;SELECT entry.id AS entry_id, entry.name AS entry_name, entry.description AS entry_description, entry.content AS entry_content, entry.created AS entry_created \nFROM entry \nWHERE entry.id = %s \n LIMIT %s&amp;#39; (3, 1)&lt;/code&gt;等一些问题。&lt;/p&gt;
+&lt;h2 id=&quot;可能原因&quot;&gt;&lt;a href=&quot;#可能原因&quot; class=&quot;headerlink&quot; title=&quot;可能原因&quot;&gt;&lt;/a&gt;可能原因&lt;/h2&gt;&lt;p&gt;在网上查了一下原因，有一下几点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;MySQL 服务宕了&lt;/li&gt;
+&lt;li&gt;MySQL连接超时&lt;/li&gt;
+&lt;li&gt;mysql请求链接进程被主动kill&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;解决方法&quot;&gt;&lt;a href=&quot;#解决方法&quot; class=&quot;headerlink&quot; title=&quot;解决方法&quot;&gt;&lt;/a&gt;解决方法&lt;/h2&gt;&lt;p&gt;经过查询和尝试，找到了一种解决方案，代码如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;class nullpool_SQLAlchemy(SQLAlchemy):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    def apply_driver_hacks(self, app, info, options):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        super(nullpool_SQLAlchemy, self).apply_driver_hacks(app, info, options)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        from sqlalchemy.pool import NullPool&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        options[&amp;apos;poolclass&amp;apos;] = NullPool&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        del options[&amp;apos;pool_size&amp;apos;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;db = nullpool_SQLAlchemy()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;需要将&lt;code&gt;db=SQLAlchemy()&lt;/code&gt;改为&lt;code&gt;db = nullpool_SQLAlchemy()&lt;/code&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;mysql数据库问题&quot;&gt;&lt;a href=&quot;#mysql数据库问题&quot; class=&quot;headerlink&quot; title=&quot;mysql数据库问题&quot;&gt;&lt;/a&gt;mysql数据库问题&lt;/h2&gt;&lt;p&gt;我在sae上部署自己写的flask应用时，有时会出现&lt;code&gt;Operat
+    
+    </summary>
+    
+      <category term="问题" scheme="http://notes.hellopython.cn/categories/%E9%97%AE%E9%A2%98/"/>
+    
+    
+      <category term="sae" scheme="http://notes.hellopython.cn/tags/sae/"/>
+    
+      <category term="mysql" scheme="http://notes.hellopython.cn/tags/mysql/"/>
+    
+      <category term="flask" scheme="http://notes.hellopython.cn/tags/flask/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>nrm详细使用</title>
+    <link href="http://notes.hellopython.cn/2016/03/18/nrm%E8%AF%A6%E7%BB%86%E4%BD%BF%E7%94%A8/"/>
+    <id>http://notes.hellopython.cn/2016/03/18/nrm详细使用/</id>
+    <published>2016-03-18T07:21:20.000Z</published>
+    <updated>2016-03-18T07:23:21.258Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;nrm简介&quot;&gt;&lt;a href=&quot;#nrm简介&quot; class=&quot;headerlink&quot; title=&quot;nrm简介&quot;&gt;&lt;/a&gt;nrm简介&lt;/h2&gt;&lt;p&gt;  nrm是npm源的管理工具，可以非常方便的切换各种源，因为墙的存在，我们在安装node包时非常慢，这时nrm就排上用场了。&lt;/p&gt;
+&lt;h2 id=&quot;nrm安装&quot;&gt;&lt;a href=&quot;#nrm安装&quot; class=&quot;headerlink&quot; title=&quot;nrm安装&quot;&gt;&lt;/a&gt;nrm安装&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;npm install -g nrm&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;nrm使用&quot;&gt;&lt;a href=&quot;#nrm使用&quot; class=&quot;headerlink&quot; title=&quot;nrm使用&quot;&gt;&lt;/a&gt;nrm使用&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt; nrm ls&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; #列出可用的npm源&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;*npm ---- https://registry.npmjs.org/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; cnpm --- http://r.cnpmjs.org/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; taobao - http://registry.npm.taobao.org/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; eu ----- http://registry.npmjs.eu/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; au ----- http://registry.npmjs.org.au/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; sl ----- http://npm.strongloop.com/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; nj ----- https://registry.nodejitsu.com/&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;strong&gt;*代表当前的源&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;测试源的速度&quot;&gt;&lt;a href=&quot;#测试源的速度&quot; class=&quot;headerlink&quot; title=&quot;测试源的速度&quot;&gt;&lt;/a&gt;测试源的速度&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt; nrm test&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; npm ---- 891ms&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; cnpm --- 1213ms&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;*taobao - 460ms&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; eu ----- 3859ms&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; au ----- 1073ms&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; sl ----- 4150ms&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; nj ----- 8008ms&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;nrm切换源&quot;&gt;&lt;a href=&quot;#nrm切换源&quot; class=&quot;headerlink&quot; title=&quot;nrm切换源&quot;&gt;&lt;/a&gt;nrm切换源&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;nrm use cnpm&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#切换到cnpm源&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;nrm增加源&quot;&gt;&lt;a href=&quot;#nrm增加源&quot; class=&quot;headerlink&quot; title=&quot;nrm增加源&quot;&gt;&lt;/a&gt;nrm增加源&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;nrm add  &amp;lt;registry&amp;gt; &amp;lt;url&amp;gt; [home]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;nrm删除源&quot;&gt;&lt;a href=&quot;#nrm删除源&quot; class=&quot;headerlink&quot; title=&quot;nrm删除源&quot;&gt;&lt;/a&gt;nrm删除源&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;nrm del &amp;lt;registry&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;nrm简介&quot;&gt;&lt;a href=&quot;#nrm简介&quot; class=&quot;headerlink&quot; title=&quot;nrm简介&quot;&gt;&lt;/a&gt;nrm简介&lt;/h2&gt;&lt;p&gt;  nrm是npm源的管理工具，可以非常方便的切换各种源，因为墙的存在，我们在安装node包时非常慢，这时nrm就排
+    
+    </summary>
+    
+      <category term="记录" scheme="http://notes.hellopython.cn/categories/%E8%AE%B0%E5%BD%95/"/>
+    
+      <category term="node.js" scheme="http://notes.hellopython.cn/categories/%E8%AE%B0%E5%BD%95/node-js/"/>
+    
+    
+      <category term="node.js" scheme="http://notes.hellopython.cn/tags/node-js/"/>
+    
+      <category term="nrm" scheme="http://notes.hellopython.cn/tags/nrm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python包之psutil</title>
+    <link href="http://notes.hellopython.cn/2016/03/17/python%E5%8C%85%E4%B9%8Bpsutil/"/>
+    <id>http://notes.hellopython.cn/2016/03/17/python包之psutil/</id>
+    <published>2016-03-17T12:43:40.000Z</published>
+    <updated>2016-03-17T12:45:34.730Z</updated>
+    
+    <content type="html">&lt;p&gt;psutil是python的一个很有用的模块，可以用来查看系统的各种状态信息，包括内存，磁盘，网络，进程，cpu等的使用情况。能实现linux上ps、top、lso、nice、netstat、ifconfig、who、df、kill、freeionice、iostat、iotop、uptime等命令的功能。&lt;/p&gt;
+&lt;h2 id=&quot;下载安装&quot;&gt;&lt;a href=&quot;#下载安装&quot; class=&quot;headerlink&quot; title=&quot;下载安装&quot;&gt;&lt;/a&gt;下载安装&lt;/h2&gt;&lt;p&gt;psutil在使用前，必须安装，下载地址为&lt;a href=&quot;https://pypi.python.org/simple/psutil/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://pypi.python.org/simple/psutil/&lt;/a&gt;选择对应版本下载即可，安装过程很简单，就是下一步一直到完成。&lt;/p&gt;
+&lt;p&gt;或者&lt;/p&gt;
+&lt;p&gt;直接使用&lt;code&gt;pip install psutil&lt;/code&gt;安装&lt;/p&gt;
+&lt;h2 id=&quot;基本使用&quot;&gt;&lt;a href=&quot;#基本使用&quot; class=&quot;headerlink&quot; title=&quot;基本使用&quot;&gt;&lt;/a&gt;基本使用&lt;/h2&gt;&lt;h3 id=&quot;获取cpu的信息&quot;&gt;&lt;a href=&quot;#获取cpu的信息&quot; class=&quot;headerlink&quot; title=&quot;获取cpu的信息&quot;&gt;&lt;/a&gt;获取cpu的信息&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#显示cpu的整个信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;import psutil&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.cpu_times()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#获取其中单项值，例如：&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.cpu_times() .user&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#获取cpu的逻辑个数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.cpu_count()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#获取cpu的物理个数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.cpu_count(logical=False)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;读取内存信息&quot;&gt;&lt;a href=&quot;#读取内存信息&quot; class=&quot;headerlink&quot; title=&quot;读取内存信息&quot;&gt;&lt;/a&gt;读取内存信息&lt;/h3&gt;&lt;p&gt;主要可以获取系统内存利用率信息涉及&lt;code&gt;total&lt;/code&gt;(内存总数)，&lt;code&gt;used&lt;/code&gt;(以使用内存)，free(空闲内存)，&lt;code&gt;buffers&lt;/code&gt;(缓冲使用数)， &lt;code&gt;cache&lt;/code&gt;(缓存使用数)，&lt;code&gt;swap&lt;/code&gt;(交换分区使用数)&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#获取内存的完整信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mem = psuti.virtual_memory()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#获取内存总数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mem.total   &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#获取空闲的内存信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mem.free        &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#获取swap分区信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.swap_memory()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;获取磁盘信息&quot;&gt;&lt;a href=&quot;#获取磁盘信息&quot; class=&quot;headerlink&quot; title=&quot;获取磁盘信息&quot;&gt;&lt;/a&gt;获取磁盘信息&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#获取磁盘的完整信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.disk_partitions()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#获取分区表的参数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.disk_usage(&amp;apos;/&amp;apos;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#获取硬盘IO总个数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.disk_io_counters()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#获取单个分区IO个数，perdisk=True参数获取单个分区IO个数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.disk_io_counters(perdisk=True)  &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#磁盘利用率使用&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.disk_usage&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;读取网络信息&quot;&gt;&lt;a href=&quot;#读取网络信息&quot; class=&quot;headerlink&quot; title=&quot;读取网络信息&quot;&gt;&lt;/a&gt;读取网络信息&lt;/h3&gt;&lt;p&gt;其中有几个参数&lt;br&gt;&lt;code&gt;Bytes_sent&lt;/code&gt;，发送字节数&lt;br&gt;&lt;code&gt;Packets_sent&lt;/code&gt;，接收字节数&lt;br&gt;&lt;code&gt;Packets_sent&lt;/code&gt;，发送数据包数&lt;br&gt;&lt;code&gt;Packets_sent&lt;/code&gt;，接收数据包数&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#获取网络总IO信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.net_io_counters()   &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#pernic=True输出网络每个接口信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.net_io_counters(pernic=True)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;获取当前系统用户登录信息&quot;&gt;&lt;a href=&quot;#获取当前系统用户登录信息&quot; class=&quot;headerlink&quot; title=&quot;获取当前系统用户登录信息&quot;&gt;&lt;/a&gt;获取当前系统用户登录信息&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#获取开机时间&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.users()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;import psutil, datetime&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.boot_time()    &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;datetime.datetime.fromtimestamp(psutil.boot_time()).strftime(&amp;quot;%Y-%m-%d %H: %M: %S&amp;quot;) #转换成自然时间格式&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;系统进程管理&quot;&gt;&lt;a href=&quot;#系统进程管理&quot; class=&quot;headerlink&quot; title=&quot;系统进程管理&quot;&gt;&lt;/a&gt;系统进程管理&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#查看系统全部进程&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;psutil.pids()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#查看单个进程,例如，2423是进程号&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p = psutil.Process(2423) &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.name()   #进程名&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.exe()    #进程的bin路径&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.cwd()    #进程的工作目录绝对路径&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.status()   #进程状态&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.create_time()  #进程创建时间&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.uids()    #进程uid信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.gids()    #进程的gid信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.cpu_times()   #进程的cpu时间信息,包括user,system两个cpu信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.cpu_affinity()  #get进程cpu亲和度,如果要设置cpu亲和度,将cpu号作为参考就好&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.memory_percent()  #进程内存利用率&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.memory_info()    #进程内存rss,vms信息&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.io_counters()    #进程的IO信息,包括读写IO数字及参数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.connectios()   #返回进程列表&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;p.num_threads()  #进程开启的线程数&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;更多内容请看&lt;a href=&quot;http://pythonhosted.org/psutil/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官方文档&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;psutil是python的一个很有用的模块，可以用来查看系统的各种状态信息，包括内存，磁盘，网络，进程，cpu等的使用情况。能实现linux上ps、top、lso、nice、netstat、ifconfig、who、df、kill、freeionice、iostat、io
+    
+    </summary>
+    
+      <category term="记录，python" scheme="http://notes.hellopython.cn/categories/%E8%AE%B0%E5%BD%95%EF%BC%8Cpython/"/>
+    
+    
+      <category term="python" scheme="http://notes.hellopython.cn/tags/python/"/>
+    
+      <category term="psutil" scheme="http://notes.hellopython.cn/tags/psutil/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ubuntu安装node</title>
+    <link href="http://notes.hellopython.cn/2016/03/17/ubuntu%E5%AE%89%E8%A3%85node/"/>
+    <id>http://notes.hellopython.cn/2016/03/17/ubuntu安装node/</id>
+    <published>2016-03-17T12:28:34.000Z</published>
+    <updated>2016-03-17T12:30:26.718Z</updated>
+    
+    <content type="html">&lt;p&gt;学习一下node.js，感受一下不同的编程风格，我用的是ubuntu系统。&lt;/p&gt;
+&lt;h2 id=&quot;安装版本管理器&quot;&gt;&lt;a href=&quot;#安装版本管理器&quot; class=&quot;headerlink&quot; title=&quot;安装版本管理器&quot;&gt;&lt;/a&gt;安装版本管理器&lt;/h2&gt;&lt;p&gt;安装node.js版本管理工具，这里我选择的是&lt;a href=&quot;https://github.com/tj/n&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;strong&gt;n&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git clone https://github.com/tj/n.git&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cd n&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;make install&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;安装node-js&quot;&gt;&lt;a href=&quot;#安装node-js&quot; class=&quot;headerlink&quot; title=&quot;安装node.js&quot;&gt;&lt;/a&gt;安装node.js&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;n + (node.js的版本号)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;eg: n 4.2.1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;安装nrm&quot;&gt;&lt;a href=&quot;#安装nrm&quot; class=&quot;headerlink&quot; title=&quot;安装nrm&quot;&gt;&lt;/a&gt;安装nrm&lt;/h2&gt;&lt;p&gt;安装nrm,npm源的管理工具可以很方便的切换源，很适合在国内这种情况下使用。&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;npm install -g nrm&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#显示可选的源&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;nrm ls&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#测式各个npm的速度&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;nrm test&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#切换源&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;eg:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  nrm use taobao&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;学习一下node.js，感受一下不同的编程风格，我用的是ubuntu系统。&lt;/p&gt;
+&lt;h2 id=&quot;安装版本管理器&quot;&gt;&lt;a href=&quot;#安装版本管理器&quot; class=&quot;headerlink&quot; title=&quot;安装版本管理器&quot;&gt;&lt;/a&gt;安装版本管理器&lt;/h2&gt;&lt;p&gt;安装nod
+    
+    </summary>
+    
+      <category term="记录" scheme="http://notes.hellopython.cn/categories/%E8%AE%B0%E5%BD%95/"/>
+    
+    
+      <category term="node.js" scheme="http://notes.hellopython.cn/tags/node-js/"/>
+    
+      <category term="nrm" scheme="http://notes.hellopython.cn/tags/nrm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>安装配置oh-my-zsh</title>
+    <link href="http://notes.hellopython.cn/2016/03/16/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEoh-my-zsh/"/>
+    <id>http://notes.hellopython.cn/2016/03/16/安装配置oh-my-zsh/</id>
+    <published>2016-03-16T12:41:19.000Z</published>
+    <updated>2016-03-16T12:43:36.347Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h2&gt;&lt;h3 id=&quot;安装zsh&quot;&gt;&lt;a href=&quot;#安装zsh&quot; class=&quot;headerlink&quot; title=&quot;安装zsh&quot;&gt;&lt;/a&gt;安装zsh&lt;/h3&gt;&lt;p&gt;oh-my-zsh是一个zsh shell的框架。&lt;/p&gt;
+&lt;p&gt;安装oh-my-zsh前需安装zsh&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install zsh&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;检查zsh是否正确安装&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;zsh --version&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;应输出&lt;code&gt;zsh 5.0.5 or 更高版本&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;设置zsh为你的默认shell:&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;chsh -s $(which zsh)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;安装oh-my-zsh&quot;&gt;&lt;a href=&quot;#安装oh-my-zsh&quot; class=&quot;headerlink&quot; title=&quot;安装oh-my-zsh&quot;&gt;&lt;/a&gt;安装oh-my-zsh&lt;/h3&gt;&lt;p&gt;使用以下命令安装oh-my-zsh&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sh -c &amp;quot;$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;或者&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sh -c &amp;quot;$(wget https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;配置&quot;&gt;&lt;a href=&quot;#配置&quot; class=&quot;headerlink&quot; title=&quot;配置&quot;&gt;&lt;/a&gt;配置&lt;/h2&gt;&lt;h3 id=&quot;更改主题&quot;&gt;&lt;a href=&quot;#更改主题&quot; class=&quot;headerlink&quot; title=&quot;更改主题&quot;&gt;&lt;/a&gt;更改主题&lt;/h3&gt;&lt;p&gt;在用户家目录下有一个&lt;code&gt;.zshrc&lt;/code&gt;文件，是zsh的配置文件。设置&lt;code&gt;ZSH_THEME=&amp;quot;ys&amp;quot;&lt;/code&gt;来设置主题，这里我用的是ys主题，主题的目录在&lt;code&gt;~/.oh-my-zsh/themes&lt;/code&gt;,大部分的主题在你安装oh-my-zsh时都已经下载到本地了。&lt;/p&gt;
+&lt;h3 id=&quot;使用插件&quot;&gt;&lt;a href=&quot;#使用插件&quot; class=&quot;headerlink&quot; title=&quot;使用插件&quot;&gt;&lt;/a&gt;使用插件&lt;/h3&gt;&lt;p&gt;同样是在&lt;code&gt;.zshrc&lt;/code&gt;文件中，设置&lt;code&gt;plugins=(git command-not-found)&lt;/code&gt;,要使用插件直接将它的名字加到括号中，以空格隔开。插件的目录在&lt;code&gt;~/.oh-my-zsh/plugins&lt;/code&gt;,在你安装oh-my-zsh时插件也都已经下载到本地了。&lt;/p&gt;
+&lt;p&gt;更多详细的配置见oh-my-zsh官网&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h2&gt;&lt;h3 id=&quot;安装zsh&quot;&gt;&lt;a href=&quot;#安装zsh&quot; class=&quot;headerlink&quot; title=&quot;安装zsh&quot;&gt;&lt;/a&gt;安装zs
+    
+    </summary>
+    
+      <category term="记录" scheme="http://notes.hellopython.cn/categories/%E8%AE%B0%E5%BD%95/"/>
+    
+    
+      <category term="oh-my-zsh" scheme="http://notes.hellopython.cn/tags/oh-my-zsh/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>在sae上部署应用</title>
+    <link href="http://notes.hellopython.cn/2016/03/16/%E5%9C%A8sae%E4%B8%8A%E9%83%A8%E7%BD%B2%E5%BA%94%E7%94%A8/"/>
+    <id>http://notes.hellopython.cn/2016/03/16/在sae上部署应用/</id>
+    <published>2016-03-16T09:34:21.000Z</published>
+    <updated>2016-03-16T09:42:43.496Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;在sae上部署应用&quot;&gt;&lt;a href=&quot;#在sae上部署应用&quot; class=&quot;headerlink&quot; title=&quot;在sae上部署应用&quot;&gt;&lt;/a&gt;在sae上部署应用&lt;/h1&gt;&lt;h2 id=&quot;首先新建一个应用（python为例）&quot;&gt;&lt;a href=&quot;#首先新建一个应用（python为例）&quot; class=&quot;headerlink&quot; title=&quot;首先新建一个应用（python为例）&quot;&gt;&lt;/a&gt;首先新建一个应用（python为例）&lt;/h2&gt;&lt;h2 id=&quot;然后使用git或者svn工具来创建一个版本&quot;&gt;&lt;a href=&quot;#然后使用git或者svn工具来创建一个版本&quot; class=&quot;headerlink&quot; title=&quot;然后使用git或者svn工具来创建一个版本&quot;&gt;&lt;/a&gt;然后使用git或者svn工具来创建一个版本&lt;/h2&gt;&lt;h2 id=&quot;假设您刚刚创建了应用newapp。&quot;&gt;&lt;a href=&quot;#假设您刚刚创建了应用newapp。&quot; class=&quot;headerlink&quot; title=&quot;假设您刚刚创建了应用newapp。&quot;&gt;&lt;/a&gt;假设您刚刚创建了应用newapp。&lt;/h2&gt;&lt;h2 id=&quot;首先，创建一个新的Git仓库并且添加一个Git远程仓库sae，地址为：https-git-sinacloud-com-newapp。&quot;&gt;&lt;a href=&quot;#首先，创建一个新的Git仓库并且添加一个Git远程仓库sae，地址为：https-git-sinacloud-com-newapp。&quot; class=&quot;headerlink&quot; title=&quot;首先，创建一个新的Git仓库并且添加一个Git远程仓库sae，地址为：https://git.sinacloud.com/newapp。&quot;&gt;&lt;/a&gt;首先，创建一个新的Git仓库并且添加一个Git远程仓库sae，地址为：&lt;code&gt;https://git.sinacloud.com/newapp&lt;/code&gt;。&lt;/h2&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;	 mkdir newapp &amp;amp;&amp;amp; cd newapp&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	 git init&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	 git remote add sae https://git.sinacloud.com/newapp&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;```	     &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;## 上传代码。如部署Git的主分支（master）的代码到SAE服务器上的版本1中：&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;pre&gt;&lt;code&gt;touch index.wsgi config.yaml
+&lt;/code&gt;&lt;/pre&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;添加内容&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;config.yaml&lt;/p&gt;
+&lt;p&gt;name: helloworld&lt;br&gt;version: 1&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;```&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;index.wsgi&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;import sae&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;def app(environ, start_response):&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    status = &amp;apos;200 OK&amp;apos;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    response_headers = [(&amp;apos;Content-type&amp;apos;, &amp;apos;text/plain&amp;apos;)]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    start_response(status, response_headers)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return [&amp;apos;Hello, world!&amp;apos;]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;application = sae.create_wsgi_app(app)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;上传&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git add .&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git commit -m &amp;quot;initial commit&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git push sae master:1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt; 若要从SAE服务器上删除版本1的代码。&lt;br&gt;     git push sae :1&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;SAE上的Python应用的入口为 index.wsgi:application ，也就是 index.wsgi 这个文件中名为 &lt;strong&gt;application&lt;/strong&gt;的可调用对象。在helloworld应用中，该application为一个wsgi的可调用对象。&lt;/p&gt;
+&lt;h2 id=&quot;部署应用下一版本&quot;&gt;&lt;a href=&quot;#部署应用下一版本&quot; class=&quot;headerlink&quot; title=&quot;部署应用下一版本&quot;&gt;&lt;/a&gt;部署应用下一版本&lt;/h2&gt;&lt;p&gt;提交刚刚编辑的代码，就可以完成应用在SAE上的部署。&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git add file&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git commit -m &amp;quot;info&amp;quot;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git push sae master:2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;在sae上部署应用&quot;&gt;&lt;a href=&quot;#在sae上部署应用&quot; class=&quot;headerlink&quot; title=&quot;在sae上部署应用&quot;&gt;&lt;/a&gt;在sae上部署应用&lt;/h1&gt;&lt;h2 id=&quot;首先新建一个应用（python为例）&quot;&gt;&lt;a href=&quot;#首先新建一个应
+    
+    </summary>
+    
+      <category term="记录" scheme="http://notes.hellopython.cn/categories/%E8%AE%B0%E5%BD%95/"/>
+    
+    
+      <category term="python" scheme="http://notes.hellopython.cn/tags/python/"/>
+    
+      <category term="sae" scheme="http://notes.hellopython.cn/tags/sae/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>本站第一篇文章</title>
+    <link href="http://notes.hellopython.cn/2016/03/16/%E6%9C%AC%E7%AB%99%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/"/>
+    <id>http://notes.hellopython.cn/2016/03/16/本站第一篇文章/</id>
+    <published>2016-03-16T08:45:39.000Z</published>
+    <updated>2016-03-16T08:57:36.140Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;本站介绍&quot;&gt;&lt;a href=&quot;#本站介绍&quot; class=&quot;headerlink&quot; title=&quot;本站介绍&quot;&gt;&lt;/a&gt;本站介绍&lt;/h2&gt;&lt;p&gt;  本站是用来记录我的学习笔记的地方，分享我在学习过程中遇到的问题与收获。还会分享一些，我在学习过程中搜集的一些资源,&lt;strong&gt;本站采用的是hexo静态博客系统，部署在sae上&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;  欢迎大家来互相学习。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;本站介绍&quot;&gt;&lt;a href=&quot;#本站介绍&quot; class=&quot;headerlink&quot; title=&quot;本站介绍&quot;&gt;&lt;/a&gt;本站介绍&lt;/h2&gt;&lt;p&gt;  本站是用来记录我的学习笔记的地方，分享我在学习过程中遇到的问题与收获。还会分享一些，我在学习过程中搜集的一些资源,&lt;st
+    
+    </summary>
+    
+      <category term="关于本站" scheme="http://notes.hellopython.cn/categories/%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99/"/>
+    
+    
+      <category term="记录" scheme="http://notes.hellopython.cn/tags/%E8%AE%B0%E5%BD%95/"/>
+    
+      <category term="本站" scheme="http://notes.hellopython.cn/tags/%E6%9C%AC%E7%AB%99/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="http://notes.hellopython.cn/2016/03/16/hello-world/"/>
+    <id>http://notes.hellopython.cn/2016/03/16/hello-world/</id>
+    <published>2016-03-16T05:15:59.452Z</published>
+    <updated>2016-03-16T05:15:59.452Z</updated>
+    
+    <content type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;documentation&lt;/a&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;a href=&quot;https://hexo.io/docs/troubleshooting.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;troubleshooting&lt;/a&gt; or you can ask me on &lt;a href=&quot;https://github.com/hexojs/hexo/issues&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;Quick-Start&quot;&gt;&lt;a href=&quot;#Quick-Start&quot; class=&quot;headerlink&quot; title=&quot;Quick Start&quot;&gt;&lt;/a&gt;Quick Start&lt;/h2&gt;&lt;h3 id=&quot;Create-a-new-post&quot;&gt;&lt;a href=&quot;#Create-a-new-post&quot; class=&quot;headerlink&quot; title=&quot;Create a new post&quot;&gt;&lt;/a&gt;Create a new post&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo new &lt;span class=&quot;string&quot;&gt;&quot;My New Post&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/writing.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Writing&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Run-server&quot;&gt;&lt;a href=&quot;#Run-server&quot; class=&quot;headerlink&quot; title=&quot;Run server&quot;&gt;&lt;/a&gt;Run server&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/server.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Server&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Generate-static-files&quot;&gt;&lt;a href=&quot;#Generate-static-files&quot; class=&quot;headerlink&quot; title=&quot;Generate static files&quot;&gt;&lt;/a&gt;Generate static files&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo generate&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/generating.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Generating&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Deploy-to-remote-sites&quot;&gt;&lt;a href=&quot;#Deploy-to-remote-sites&quot; class=&quot;headerlink&quot; title=&quot;Deploy to remote sites&quot;&gt;&lt;/a&gt;Deploy to remote sites&lt;/h3&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;$ hexo deploy&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;More info: &lt;a href=&quot;https://hexo.io/docs/deployment.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Deployment&lt;/a&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
