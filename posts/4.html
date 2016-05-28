@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Page 4 - 笔记</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="gdb">
+    <meta name="keywords" content="flask,python,pugo,golang,generator"/>
+    <meta name="description" content="记录学习笔记的小站"/>
+    <link href="/css/pure-min.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/blog.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/railscasts.css" type="text/css" rel="stylesheet" media="all"/>
+</head>
+<body class="post-list" data-perma="post-page-4">
+<div class="pure-g-r" id="layout">
+    <div class="sidebar pure-u">
+    <header class="header">
+        <div class="top">
+            <a href="/" class="profilepic">
+                <image src="http://7xo1su.com1.z0.glb.clouddn.com/avatar.png-avatar"/>
+            </a>
+        </div>
+        <hgroup>
+            <h1 class="brand-title">
+                <a href="/" class="brand-title">笔记</a>
+            </h1>
+            <h2 class="brand-tagline">Just For Learning</h2>
+        </hgroup>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="">
+                    <a href="/">文章</a>
+                </li>
+                <li class="">
+                    <a href="/archive">归档</a>
+                </li>
+                <li class="">
+                    <a href="/about">关于</a>
+                </li>
+            </ul>
+        </nav>
+
+
+    </header>
+</div>
+    <div class="pure-u-1">
+        <div class="content">
+                
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/3/18/nrm%e8%af%a6%e7%bb%86%e4%bd%bf%e7%94%a8.html">nrm详细使用</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-3-18</small>
+                        </div>
+                        <div class="post-description"><h2 id="nrm简介">nrm简介</h2>
+
+<p>nrm是npm源的管理工具，可以非常方便的切换各种源，因为墙的存在，我们在安装node包时非常慢，这时nrm就排上用场了。</p>
+
+<h2 id="nrm安装">nrm安装</h2>
+<pre><code>    npm install -g nrm
+</code></pre>
+
+<h2 id="nrm使用">nrm使用</h2>
+<pre><code>    nrm ls
+    #列出可用的npm源
+
+   *npm ---- https://registry.npmjs.org/
+    cnpm --- http://r.cnpmjs.org/
+    taobao - http://registry.npm.taobao.org/
+    eu ----- http://registry.npmjs.eu/
+    au ----- http://registry.npmjs.org.au/
+    sl ----- http://npm.strongloop.com/
+    nj ----- https://registry.nodejitsu.com/
+</code></pre>
+
+<p>*<strong>代表当前的源</strong></p>
+</div>
+                        <div class="more">
+                            <a href="/2016/3/18/nrm%e8%af%a6%e7%bb%86%e4%bd%bf%e7%94%a8.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/3/17/python%e5%8c%85%e4%b9%8bpsutil.html">python包之psutil</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-3-17</small>
+                        </div>
+                        <div class="post-description"><p>psutil是python的一个很有用的模块，可以用来查看系统的各种状态信息，包括内存，磁盘，网络，进程，cpu等的使用情况。能实现linux上ps、top、lso、nice、netstat、ifconfig、who、df、kill、freeionice、iostat、iotop、uptime等命令的功能。</p>
+
+<h2 id="下载安装">下载安装</h2>
+
+<p>psutil在使用前，必须安装，下载地址为[<a href="https://pypi.python.org/simple/psutil/][1]选择对应版本下载即可，安装过程很简单，就是下一步一直到完成。">https://pypi.python.org/simple/psutil/][1]选择对应版本下载即可，安装过程很简单，就是下一步一直到完成。</a></p>
+
+<p>或者</p>
+
+<p>直接使用<code>pip install psutil</code>安装</p>
+</div>
+                        <div class="more">
+                            <a href="/2016/3/17/python%e5%8c%85%e4%b9%8bpsutil.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/3/17/ubuntu%e5%ae%89%e8%a3%85node.html">ubuntu安装node</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-3-17</small>
+                        </div>
+                        <div class="post-description"><p>学习一下node.js，感受一下不同的编程风格，我用的是ubuntu系统。</p>
+
+<h2 id="安装版本管理器">安装版本管理器</h2>
+
+<p>安装node.js版本管理工具，这里我选择的是<a href="https://github.com/tj/n"><strong>n</strong></a></p>
+<pre><code>    git clone https://github.com/tj/n.git
+    cd n
+    make install
+
+</code></pre>
+
+<h2 id="安装node-js">安装node.js</h2>
+<pre><code>    n + (node.js的版本号)
+    eg: n 4.2.1
+</code></pre>
+</div>
+                        <div class="more">
+                            <a href="/2016/3/17/ubuntu%e5%ae%89%e8%a3%85node.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/3/16/%e5%ae%89%e8%a3%85%e9%85%8d%e7%bd%aeoh-my-zsh.html">安装配置oh-my-zsh</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-3-16</small>
+                        </div>
+                        <div class="post-description"><h2 id="安装">安装</h2>
+
+<h3 id="安装zsh">安装zsh</h3>
+
+<p>oh-my-zsh是一个zsh shell的框架。</p>
+
+<p>安装oh-my-zsh前需安装zsh</p>
+<pre><code>sudo apt-get install zsh
+</code></pre>
+
+<p>检查zsh是否正确安装</p>
+<pre><code>zsh --version
+</code></pre>
+
+<p>应输出<code>zsh 5.0.5 or 更高版本</code></p>
+
+<p>设置zsh为你的默认shell:</p>
+<pre><code>chsh -s $(which zsh)
+</code></pre>
+</div>
+                        <div class="more">
+                            <a href="/2016/3/16/%e5%ae%89%e8%a3%85%e9%85%8d%e7%bd%aeoh-my-zsh.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+        </div>
+        <div class="pagination pure-g">
+            <ul>
+                <li class="prev pure-u-1-3"><a href="/posts/3.html">← 更新的</a></li>
+                <li class="next pure-u-1-3"><a href="/posts/5.html">以前的 →</a></li>
+            </ul>
+        </div>
+        <div class="footer">
+    <p>&copy; 笔记 2015
+        powered by <a href="http://github.com/go-xiaohei/pugo">PuGo</a> with <a href="http://notes.hellopython.cn" target="_blank">Cpure</a>
+    </p>
+    
+    
+    
+
+</div>
+    </div>
+</div>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script>
+    $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>
+</body>
+</html>

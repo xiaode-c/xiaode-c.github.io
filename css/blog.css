@@ -1,0 +1,380 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: #696969;
+    font-family: Roboto, "Roboto", serif;
+}
+
+a:hover {
+    color: #b0a0aa;
+    outline-width: 0;
+    outline: none;
+}
+
+html, body {
+    font-family: "PingHei", "Lucida Grande", "Lucida Sans Unicode", Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "Microsoft YaHei", STXihei, STHeiti, Heiti, SimSun, sans-serif;
+}
+
+pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', "Microsoft Yahei", Helvetica, Arial, sans-serif;
+}
+
+/* LAYOUT CSS */
+
+#layout {
+    padding-left: 25%;
+    /* "left col (nav + list)" width */
+    position: relative;
+}
+
+small {
+    color: #999;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 25%;
+    margin-left: -25%;
+    background: #fff;
+    color: #696969;
+}
+
+.profilepic {
+    top: 115px;
+    text-align: center;
+    display: block;
+    border: 5px solid #fff;
+    -webkit-border-radius: 300px;
+    border-radius: 300px;
+    width: 128px;
+    height: 128px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    background: #88acdb;
+    -webkit-transition: all 0.2s ease-in;
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+}
+
+.header {
+    /*margin: 50% 2em 0;*/
+    /*text-align: right;*/
+}
+
+.header .top {
+    height: 180px;
+    background-color: #000;
+    margin-bottom: 25%;
+}
+
+.brand-title, .brand-tagline {
+    margin: 0;
+    text-align: center;
+}
+
+.brand-title {
+    text-transform: uppercase;
+    color: #696969;
+    text-align: center;
+}
+
+.brand-tagline {
+    margin-top: 20px;
+    font-weight: 300;
+    color: #999;
+    font-size: 16px;
+
+}
+
+.nav {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.nav-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-list li {
+    line-height: 30px;
+}
+
+.nav-item {
+    display: inline-block;
+    zoom: 1;
+}
+
+.nav-item a {
+    background: transparent;
+    border: 3px solid rgb(103, 103, 180);
+    color: #696969;
+    margin-top: 1em;
+}
+
+.nav-item a:hover, .nav-item a:focus {
+    border: 3px solid rgb(142, 142, 214);
+    color: #696969;
+    text-decoration: none;
+}
+
+.content-subhead {
+    text-transform: uppercase;
+    color: #aaa;
+    border-bottom: 1px solid #eee;
+    padding: 0.4em 0;
+    font-size: 80%;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+}
+
+.content {
+    padding: 2em 2em 0;
+    background-color: #EAEAEA;
+    height: auto !important;
+    min-height:700px;
+}
+
+.content-inner {
+    background-color: #fff;
+    line-height: 1.8em;
+    padding: 15px 30px 15px 30px;
+}
+
+
+.post {
+    /*padding-bottom: 2em;*/
+    background-color: white;
+   /* padding-bottom: 30px;*/
+}
+
+.tag {
+    background-color: #ba8f6c; 
+    display: inline-block;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 10px;
+    color: #fff;
+    height: 18px;
+    line-height: 18px;
+    float: left;
+    padding: 0 5px 0px 10px;
+    position: relative;
+    -webkit-border-radius: 0 5px 5px 0;
+    border-radius: 0 5px 5px 0;
+    margin: 5px 9px 5px 8px;
+    font-family: Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace;
+}
+
+.author-name {
+    float: right;
+}
+
+.post .post-header {
+    border-left: 5px solid;
+    padding: 15px 0px 15px 25px;
+    font-size: 20px;
+}
+
+.post-info {
+    padding-right: 30px;
+    padding-left: 30px; 
+    padding-bottom: 30px; 
+}
+
+.post-title {
+    font-size: 2em;
+    color: #222;
+    margin-bottom: 0.2em;
+}
+
+.post-avatar {
+    border-radius: 50px;
+    float: right;
+    margin-left: 1em;
+}
+
+.post-description {
+    color: #444;
+    line-height: 1.8em;
+
+}
+
+
+
+.post-meta {
+    color: #999;
+    font-size: 85%;
+    margin: 0;
+}
+
+.post-category {
+    padding: 3px 6px;
+    margin: 0 0.1em;
+    background: #eee;
+    color: #555;
+    font-size: 80%;
+    list-style: none;
+    overflow: hidden;
+}
+
+.post-category span {
+    vertical-align: super;
+    font-size: 0.8em;
+}
+
+.post-images {
+    margin: 1em 0;
+}
+
+.post-image-meta {
+    margin-top: -3.5em;
+    margin-left: 1em;
+    color: #fff;
+    text-shadow: 0 1px 1px #333;
+}
+
+.footer {
+    text-align: center;
+    padding: 2em 0;
+    font-size: 80%;
+    color: #696969;
+    background-color: #EAEAEA;
+    border-top: 1px solid #DDD;
+
+}
+
+@media (max-width: 767px) {
+    .sidebar {
+        width: 100%;
+        position: relative;
+        margin: 0;
+    }
+    
+    .sidebar .top {
+        height: 100px;
+    }
+
+    .sidebar .profilepic {
+        top: 50px;
+    }
+    
+    .sidebar .nav .nav-list li {
+        display: inline;
+        margin: 5px;
+    }
+
+
+    .header {
+        text-align: center;
+        top: auto;
+        margin-bottom: 3em;
+        position: static;
+    }
+
+    #layout {
+        padding: 0;
+    }
+
+
+}
+
+@media (max-width: 480px) {
+    .content {
+        padding: 2em 0em 0;
+
+    }
+}
+
+h1.post-header{
+    font-size: 2.5em;
+}
+
+h3.post-header{
+    font-size: 1.5em;
+}
+
+.post-category:hover {
+    background-color: #fff;
+    border: 1px solid #555;
+}
+
+.post-description p > code, .post-description li > code {
+    margin: 0 2px;
+    padding: 0 5px;
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+    border-radius: 3px;
+    font-size: 95%;
+    font-family: Consolas, "Microsoft YaHei", "Courier New", Arial,monospace;
+}
+
+.post-description code {
+    border: 0;
+}
+
+.post-description pre {
+    font-size: 90% !important;
+}
+
+.post-description table{
+    width: 100%;
+    margin: .5rem 1rem;
+    line-height: 2rem;
+}
+
+.post-description td{
+    border-top: 1px solid #DDD;
+    padding:0 .5rem;
+}
+
+.post-description th{
+    font-weight: bold;
+    padding:0 .5rem;
+    text-align: left;
+}
+
+.post-description p img{
+    max-width: 95%;
+}
+
+.pagination {
+    background-color: #EAEAEA;
+    width: 100%;
+}
+
+.pagination ul {
+    width: 100%; 
+    text-align: center;
+    list-style-type: none;
+
+}
+
+.pagination li {
+    text-align: center;
+    list-style-type: none;
+}
+
+.pagination a {
+    cursor: pointer;
+}
+
+.pagination .disabled {
+    cursor: default;
+}
+
+.archive .date {
+    display: inline-block;
+    width: 96px;
+}

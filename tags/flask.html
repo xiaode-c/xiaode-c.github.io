@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>flask - 笔记</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="gdb">
+    <meta name="keywords" content="flask,python,pugo,golang,generator"/>
+    <meta name="description" content="记录学习笔记的小站"/>
+    <link href="/css/pure-min.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/blog.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/railscasts.css" type="text/css" rel="stylesheet" media="all"/>
+</head>
+<body class="post-tag" data-perma="post-tag-flask">
+<div class="pure-g-r" id="layout">
+    <div class="sidebar pure-u">
+    <header class="header">
+        <div class="top">
+            <a href="/" class="profilepic">
+                <image src="http://7xo1su.com1.z0.glb.clouddn.com/avatar.png-avatar"/>
+            </a>
+        </div>
+        <hgroup>
+            <h1 class="brand-title">
+                <a href="/" class="brand-title">笔记</a>
+            </h1>
+            <h2 class="brand-tagline">Just For Learning</h2>
+        </hgroup>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="">
+                    <a href="/">文章</a>
+                </li>
+                <li class="">
+                    <a href="/archive">归档</a>
+                </li>
+                <li class="">
+                    <a href="/about">关于</a>
+                </li>
+            </ul>
+        </nav>
+
+
+    </header>
+</div>
+    <div class="pure-u-1">
+        <div class="content">
+                
+                <h1>flask</h1>
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/3/19/sae%e4%b8%8amysql%e9%97%ae%e9%a2%98.html">sae上mysql问题</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-3-19</small>
+                        </div>
+                        <div class="post-description"><h2 id="mysql数据库问题">mysql数据库问题</h2>
+
+<p>我在sae上部署自己写的flask应用时，有时会出现<code>OperationalError: (OperationalError) (2006, 'MySQL server has gone away') 'SELECT entry.id AS entry_id, entry.name AS entry_name, entry.description AS entry_description, entry.content AS entry_content, entry.created AS entry_created \nFROM entry \nWHERE entry.id = %s \n LIMIT %s' (3, 1)</code>等一些问题。</p>
+
+<h2 id="可能原因">可能原因</h2>
+
+<p>在网上查了一下原因，有一下几点：</p>
+
+<ol>
+<li>MySQL 服务宕了</li>
+<li>MySQL连接超时</li>
+<li>mysql请求链接进程被主动kill</li>
+</ol>
+</div>
+                        <div class="more">
+                            <a href="/2016/3/19/sae%e4%b8%8amysql%e9%97%ae%e9%a2%98.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+        </div>
+        <div class="pagination pure-g">
+            <ul>
+                
+                
+            </ul>
+        </div>
+        <div class="footer">
+    <p>&copy; 笔记 2015
+        powered by <a href="http://github.com/go-xiaohei/pugo">PuGo</a> with <a href="http://notes.hellopython.cn" target="_blank">Cpure</a>
+    </p>
+    
+    
+    
+
+</div>
+    </div>
+</div>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script>
+    $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>
+</body>
+</html>

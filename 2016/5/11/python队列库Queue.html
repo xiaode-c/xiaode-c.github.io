@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>python队列库Queue - 笔记</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="gdb">
+    <meta name="keywords" content="flask,python,pugo,golang,generator"/>
+    <meta name="description" content="python队列库Queue"/>
+    <link href="/css/pure-min.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/blog.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/railscasts.css" type="text/css" rel="stylesheet" media="all"/>
+</head>
+<body class="post" data-perma="python队列库Queue">
+<div class="pure-g-r" id="layout">
+    <div class="sidebar pure-u">
+    <header class="header">
+        <div class="top">
+            <a href="/" class="profilepic">
+                <image src="http://7xo1su.com1.z0.glb.clouddn.com/avatar.png-avatar"/>
+            </a>
+        </div>
+        <hgroup>
+            <h1 class="brand-title">
+                <a href="/" class="brand-title">笔记</a>
+            </h1>
+            <h2 class="brand-tagline">Just For Learning</h2>
+        </hgroup>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="">
+                    <a href="/">文章</a>
+                </li>
+                <li class="">
+                    <a href="/archive">归档</a>
+                </li>
+                <li class="">
+                    <a href="/about">关于</a>
+                </li>
+            </ul>
+        </nav>
+
+
+    </header>
+</div>
+    <div class="pure-u-1">
+        <div class="content">
+            <div class="content-inner">
+                <div class="post">
+                <h1 class="post-header">python队列库Queue</h1>
+                <aside class="aside clearfix">
+                    
+                    <a class="tag"  href="/tags/python.html">python</a>
+                    
+                    <a class="tag"  href="/tags/Queue.html">Queue</a>
+                    
+                    
+                    <a class="author-name" href="http://notes.hellopython.cn" target="_blank">gdb</a>
+                </aside>
+
+                <div class="post-meta">
+                    <small>2016-5-11</small>
+                </div>
+                <div class="post-description"><h1 id="queue">Queue</h1>
+
+<p>Queue是python标准库中的线程安全的队列（FIFO）实现,提供了一个适用于多线程编程的先进先出的数据结构，即队列，用来在生产者和消费者线程之间的信息传递</p>
+
+<h2 id="基本fifo队列">基本FIFO队列</h2>
+
+<p><strong>class Queue.Queue(maxsize=0)</strong></p>
+
+<p>FIFO即First in First Out,先进先出。Queue提供了一个基本的FIFO容器，使用方法很简单,maxsize是个整数，指明了队列中能存放的数据个数的上限。一旦达到上限，插入会导致阻塞，直到队列中的数据被消费掉。如果maxsize小于或者等于0，队列大小没有限制。</p>
+
+<p>举个栗子：</p>
+<pre><code>import Queue
+
+q = Queue.Queue()
+
+for i in range(5):
+    q.put(i)
+
+while not q.empty():
+    print q.get()
+</code></pre>
+
+<p>输出：</p>
+<pre><code>0
+1
+2
+3
+4
+</code></pre>
+
+<!--more-->
+
+<h2 id="lifo队列">LIFO队列</h2>
+
+<p><strong>class Queue.LifoQueue(maxsize=0)</strong></p>
+
+<p>LIFO即Last in First Out,后进先出。与栈的类似，使用也很简单,maxsize用法同上</p>
+
+<p>再举个栗子：</p>
+<pre><code>import Queue
+
+q = Queue.LifoQueue()
+
+for i in range(5):
+    q.put(i)
+
+while not q.empty():
+    print q.get()
+</code></pre>
+
+<p>输出：</p>
+<pre><code>4
+3
+2
+1
+0
+</code></pre>
+
+<p>可以看到仅仅是将<code>Queue.Quenu类</code>替换为<code>Queue.LifiQueue类</code></p>
+
+<h2 id="优先级队列">优先级队列</h2>
+
+<p><strong>class Queue.PriorityQueue(maxsize=0)</strong></p>
+
+<p>构造一个优先队列。maxsize用法同上。</p>
+<pre><code>import Queue
+import threading
+
+class Job(object):
+    def __init__(self, priority, description):
+        self.priority = priority
+        self.description = description
+        print 'Job:',description
+        return
+    def __cmp__(self, other):
+        return cmp(self.priority, other.priority)
+
+q = Queue.PriorityQueue()
+
+q.put(Job(3, 'level 3 job'))
+q.put(Job(10, 'level 10 job'))
+q.put(Job(1, 'level 1 job'))
+
+def process_job(q):
+    while True:
+        next_job = q.get()
+        print 'for:', next_job.description
+        q.task_done()
+
+workers = [threading.Thread(target=process_job, args=(q,)),
+        threading.Thread(target=process_job, args=(q,))
+        ]
+
+for w in workers:
+    w.setDaemon(True)
+    w.start()
+
+q.join()
+
+</code></pre>
+
+<p>结果</p>
+<pre><code>Job: level 3 job
+Job: level 10 job
+Job: level 1 job
+for: level 1 job
+for: level 3 job
+for: job: level 10 job
+</code></pre>
+
+<h2 id="一些常用方法">一些常用方法</h2>
+
+<h3 id="task-done"><strong>task_done()</strong></h3>
+
+<p>意味着之前入队的一个任务已经完成。由队列的消费者线程调用。每一个get()调用得到一个任务，接下来的task_done()调用告诉队列该任务已经处理完毕。</p>
+
+<p>如果当前一个join()正在阻塞，它将在队列中的所有任务都处理完时恢复执行（即每一个由put()调用入队的任务都有一个对应的task_done()调用）。</p>
+
+<h3 id="join"><strong>join()</strong></h3>
+
+<p>阻塞调用线程，直到队列中的所有任务被处理掉。</p>
+
+<p>只要有数据被加入队列，未完成的任务数就会增加。当消费者线程调用task_done()（意味着有消费者取得任务并完成任务），未完成的任务数就会减少。当未完成的任务数降到0，join()解除阻塞。</p>
+
+<h3 id="put-item-block-timeout"><strong>put(item[, block[, timeout]])</strong></h3>
+
+<p>将item放入队列中。
+1. 如果可选的参数block为True且timeout为空对象（默认的情况，阻塞调用，无超时）。
+2. 如果timeout是个正整数，阻塞调用进程最多timeout秒，如果一直无空空间可用，抛出Full异常（带超时的阻塞调用）。
+3. 如果block为False，如果有空闲空间可用将数据放入队列，否则立即抛出Full异常</p>
+
+<p>其非阻塞版本为<code>put_nowait</code>等同于<code>put(item, False)</code></p>
+
+<h3 id="get-block-timeout"><strong>get([block[, timeout]])</strong></h3>
+
+<p>从队列中移除并返回一个数据。block跟timeout参数同<code>put</code>方法</p>
+
+<p>其非阻塞方法为｀get_nowait()｀相当与<code>get(False)</code></p>
+
+<h3 id="empty">empty()</h3>
+
+<p>如果队列为空，返回True,反之返回False</p>
+</div>
+                </div>
+                
+<div id="comment">
+    
+    <div id="disqus_thread"></div>
+    <script>
+        (function () {
+            var d = document, s = d.createElement('script');
+            s.src = '//hellopython.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+        Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+    
+</div>
+
+            </div>
+        </div>
+        <div class="footer">
+    <p>&copy; 笔记 2015
+        powered by <a href="http://github.com/go-xiaohei/pugo">PuGo</a> with <a href="http://notes.hellopython.cn" target="_blank">Cpure</a>
+    </p>
+    
+    
+    
+
+</div>
+    </div>
+</div>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script>
+    $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>
+</body>
+</html>

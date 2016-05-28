@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>python包之psutil - 笔记</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="gdb">
+    <meta name="keywords" content="flask,python,pugo,golang,generator"/>
+    <meta name="description" content="python包之psutil"/>
+    <link href="/css/pure-min.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/blog.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/railscasts.css" type="text/css" rel="stylesheet" media="all"/>
+</head>
+<body class="post" data-perma="python包之psutil">
+<div class="pure-g-r" id="layout">
+    <div class="sidebar pure-u">
+    <header class="header">
+        <div class="top">
+            <a href="/" class="profilepic">
+                <image src="http://7xo1su.com1.z0.glb.clouddn.com/avatar.png-avatar"/>
+            </a>
+        </div>
+        <hgroup>
+            <h1 class="brand-title">
+                <a href="/" class="brand-title">笔记</a>
+            </h1>
+            <h2 class="brand-tagline">Just For Learning</h2>
+        </hgroup>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="">
+                    <a href="/">文章</a>
+                </li>
+                <li class="">
+                    <a href="/archive">归档</a>
+                </li>
+                <li class="">
+                    <a href="/about">关于</a>
+                </li>
+            </ul>
+        </nav>
+
+
+    </header>
+</div>
+    <div class="pure-u-1">
+        <div class="content">
+            <div class="content-inner">
+                <div class="post">
+                <h1 class="post-header">python包之psutil</h1>
+                <aside class="aside clearfix">
+                    
+                    <a class="tag"  href="/tags/python.html">python</a>
+                    
+                    <a class="tag"  href="/tags/psutil.html">psutil</a>
+                    
+                    
+                    <a class="author-name" href="http://notes.hellopython.cn" target="_blank">gdb</a>
+                </aside>
+
+                <div class="post-meta">
+                    <small>2016-3-17</small>
+                </div>
+                <div class="post-description"><p>psutil是python的一个很有用的模块，可以用来查看系统的各种状态信息，包括内存，磁盘，网络，进程，cpu等的使用情况。能实现linux上ps、top、lso、nice、netstat、ifconfig、who、df、kill、freeionice、iostat、iotop、uptime等命令的功能。</p>
+
+<h2 id="下载安装">下载安装</h2>
+
+<p>psutil在使用前，必须安装，下载地址为<a href="https://pypi.python.org/simple/psutil/">https://pypi.python.org/simple/psutil/</a>选择对应版本下载即可，安装过程很简单，就是下一步一直到完成。</p>
+
+<p>或者</p>
+
+<p>直接使用<code>pip install psutil</code>安装</p>
+
+<!--more-->
+
+<h2 id="基本使用">基本使用</h2>
+
+<h3 id="获取cpu的信息">获取cpu的信息</h3>
+<pre><code>    #显示cpu的整个信息
+    import psutil
+    psutil.cpu_times()
+    
+    #获取其中单项值，例如：
+    psutil.cpu_times() .user
+    
+    #获取cpu的逻辑个数
+    psutil.cpu_count()
+    
+    #获取cpu的物理个数
+    psutil.cpu_count(logical=False)
+</code></pre>
+
+<h3 id="读取内存信息">读取内存信息</h3>
+
+<p>主要可以获取系统内存利用率信息涉及<code>total</code>(内存总数)，<code>used</code>(以使用内存)，free(空闲内存)，<code>buffers</code>(缓冲使用数)， <code>cache</code>(缓存使用数)，<code>swap</code>(交换分区使用数)</p>
+<pre><code>    #获取内存的完整信息
+    mem = psuti.virtual_memory()
+    
+    #获取内存总数
+    mem.total   
+    
+    #获取空闲的内存信息
+    mem.free        
+    
+    #获取swap分区信息
+    psutil.swap_memory()
+</code></pre>
+
+<h3 id="获取磁盘信息">获取磁盘信息</h3>
+<pre><code>
+    #获取磁盘的完整信息
+    psutil.disk_partitions()
+    
+    #获取分区表的参数
+    psutil.disk_usage('/')
+       
+    #获取硬盘IO总个数
+    psutil.disk_io_counters()
+    
+    #获取单个分区IO个数，perdisk=True参数获取单个分区IO个数
+    psutil.disk_io_counters(perdisk=True)  
+    
+    #磁盘利用率使用
+    psutil.disk_usage 
+</code></pre>
+
+<h3 id="读取网络信息">读取网络信息</h3>
+
+<p>其中有几个参数
+<code>Bytes_sent</code>，发送字节数
+<code>Packets_sent</code>，接收字节数
+<code>Packets_sent</code>，发送数据包数
+<code>Packets_sent</code>，接收数据包数</p>
+<pre><code>    #获取网络总IO信息
+    psutil.net_io_counters()   
+    
+    #pernic=True输出网络每个接口信息
+    psutil.net_io_counters(pernic=True)     
+</code></pre>
+
+<h3 id="获取当前系统用户登录信息">获取当前系统用户登录信息</h3>
+<pre><code>    #获取开机时间
+    psutil.users()
+
+    import psutil, datetime
+    psutil.boot_time()    
+    datetime.datetime.fromtimestamp(psutil.boot_time()).strftime(&quot;%Y-%m-%d %H: %M: %S&quot;) #转换成自然时间格式
+</code></pre>
+
+<h3 id="系统进程管理">系统进程管理</h3>
+<pre><code>    #查看系统全部进程
+    psutil.pids()
+    
+    #查看单个进程,例如，2423是进程号
+    p = psutil.Process(2423) 
+    p.name()   #进程名
+    p.exe()    #进程的bin路径
+    p.cwd()    #进程的工作目录绝对路径
+    p.status()   #进程状态
+    p.create_time()  #进程创建时间
+    p.uids()    #进程uid信息
+    p.gids()    #进程的gid信息
+    p.cpu_times()   #进程的cpu时间信息,包括user,system两个cpu信息
+    p.cpu_affinity()  #get进程cpu亲和度,如果要设置cpu亲和度,将cpu号作为参考就好
+    p.memory_percent()  #进程内存利用率
+    p.memory_info()    #进程内存rss,vms信息
+    p.io_counters()    #进程的IO信息,包括读写IO数字及参数
+    p.connectios()   #返回进程列表
+    p.num_threads()  #进程开启的线程数
+</code></pre>
+
+<p>更多内容请看<a href="http://pythonhosted.org/psutil/">官方文档</a></p>
+</div>
+                </div>
+                
+<div id="comment">
+    
+    <div id="disqus_thread"></div>
+    <script>
+        (function () {
+            var d = document, s = d.createElement('script');
+            s.src = '//hellopython.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+        Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+    
+</div>
+
+            </div>
+        </div>
+        <div class="footer">
+    <p>&copy; 笔记 2015
+        powered by <a href="http://github.com/go-xiaohei/pugo">PuGo</a> with <a href="http://notes.hellopython.cn" target="_blank">Cpure</a>
+    </p>
+    
+    
+    
+
+</div>
+    </div>
+</div>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script>
+    $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>
+</body>
+</html>

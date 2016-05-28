@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>ubuntu安装配置sublime_text - 笔记</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="gdb">
+    <meta name="keywords" content="flask,python,pugo,golang,generator"/>
+    <meta name="description" content="ubuntu安装配置sublime_text"/>
+    <link href="/css/pure-min.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/blog.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/railscasts.css" type="text/css" rel="stylesheet" media="all"/>
+</head>
+<body class="post" data-perma="ubuntu安装配置sublime_text">
+<div class="pure-g-r" id="layout">
+    <div class="sidebar pure-u">
+    <header class="header">
+        <div class="top">
+            <a href="/" class="profilepic">
+                <image src="http://7xo1su.com1.z0.glb.clouddn.com/avatar.png-avatar"/>
+            </a>
+        </div>
+        <hgroup>
+            <h1 class="brand-title">
+                <a href="/" class="brand-title">笔记</a>
+            </h1>
+            <h2 class="brand-tagline">Just For Learning</h2>
+        </hgroup>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="">
+                    <a href="/">文章</a>
+                </li>
+                <li class="">
+                    <a href="/archive">归档</a>
+                </li>
+                <li class="">
+                    <a href="/about">关于</a>
+                </li>
+            </ul>
+        </nav>
+
+
+    </header>
+</div>
+    <div class="pure-u-1">
+        <div class="content">
+            <div class="content-inner">
+                <div class="post">
+                <h1 class="post-header">ubuntu安装配置sublime_text</h1>
+                <aside class="aside clearfix">
+                    
+                    <a class="tag"  href="/tags/ubuntu.html">ubuntu</a>
+                    
+                    <a class="tag"  href="/tags/sublime_text.html">sublime_text</a>
+                    
+                    
+                    <a class="author-name" href="http://notes.hellopython.cn" target="_blank">gdb</a>
+                </aside>
+
+                <div class="post-meta">
+                    <small>2016-4-29</small>
+                </div>
+                <div class="post-description"><p>以前不愿意在ubuntu上使用sublime-text,就是因为不能输入中文的问题，当时查了查，也没找到什么靠谱的方法。于是就搁置了，最近，偶然间看到一个解决方法，就试了试，竟然成功了，有可以享受sublime的速度了，所以我就记录一下。(<a href="http://www.sublimetext.com/">sublime text官网</a>)</p>
+
+<h2 id="安装sublime">安装sublime</h2>
+<pre><code>sudo add-apt-repository ppa:webupd8team/sublime-text-3
+sudo apt-get update
+sudo apt-get install sublime-text-installer
+</code></pre>
+
+<p>在安装完成之后我们就可以正常使用了，下面解决中文输入的问题。
+<!--more--></p>
+
+<h2 id="解决无法输入中文的问题">解决无法输入中文的问题</h2>
+
+<h3 id="安装好环境">安装好环境</h3>
+<pre><code>sudo apt-get install gtk+-2.0
+</code></pre>
+
+<h3 id="新建文件-sublime-imfix-c">新建文件：sublime_imfix.c</h3>
+<pre><code>/*
+sublime-imfix.c
+Use LD_PRELOAD to interpose some function to fix sublime input method support for linux.
+By Cjacker Huang
+
+gcc -shared -o libsublime-imfix.so sublime-imfix.c `pkg-config --libs --cflags gtk+-2.0` -fPIC
+LD_PRELOAD=./libsublime-imfix.so subl
+*/
+#include &lt;gtk/gtk.h&gt;
+#include &lt;gdk/gdkx.h&gt;
+typedef GdkSegment GdkRegionBox;
+
+struct _GdkRegion
+{
+  long size;
+  long numRects;
+  GdkRegionBox *rects;
+  GdkRegionBox extents;
+};
+
+GtkIMContext *local_context;
+
+void
+gdk_region_get_clipbox (const GdkRegion *region,
+            GdkRectangle    *rectangle)
+{
+  g_return_if_fail (region != NULL);
+  g_return_if_fail (rectangle != NULL);
+
+  rectangle-&gt;x = region-&gt;extents.x1;
+  rectangle-&gt;y = region-&gt;extents.y1;
+  rectangle-&gt;width = region-&gt;extents.x2 - region-&gt;extents.x1;
+  rectangle-&gt;height = region-&gt;extents.y2 - region-&gt;extents.y1;
+  GdkRectangle rect;
+  rect.x = rectangle-&gt;x;
+  rect.y = rectangle-&gt;y;
+  rect.width = 0;
+  rect.height = rectangle-&gt;height;
+  //The caret width is 2;
+  //Maybe sometimes we will make a mistake, but for most of the time, it should be the caret.
+  if(rectangle-&gt;width == 2 &amp;&amp; GTK_IS_IM_CONTEXT(local_context)) {
+        gtk_im_context_set_cursor_location(local_context, rectangle);
+  }
+}
+
+//this is needed, for example, if you input something in file dialog and return back the edit area
+//context will lost, so here we set it again.
+
+static GdkFilterReturn event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer im_context)
+{
+    XEvent *xev = (XEvent *)xevent;
+    if(xev-&gt;type == KeyRelease &amp;&amp; GTK_IS_IM_CONTEXT(im_context)) {
+       GdkWindow * win = g_object_get_data(G_OBJECT(im_context),&quot;window&quot;);
+       if(GDK_IS_WINDOW(win))
+         gtk_im_context_set_client_window(im_context, win);
+    }
+    return GDK_FILTER_CONTINUE;
+}
+
+void gtk_im_context_set_client_window (GtkIMContext *context,
+          GdkWindow    *window)
+{
+  GtkIMContextClass *klass;
+  g_return_if_fail (GTK_IS_IM_CONTEXT (context));
+  klass = GTK_IM_CONTEXT_GET_CLASS (context);
+  if (klass-&gt;set_client_window)
+    klass-&gt;set_client_window (context, window);
+
+  if(!GDK_IS_WINDOW (window))
+    return;
+  g_object_set_data(G_OBJECT(context),&quot;window&quot;,window);
+  int width = gdk_window_get_width(window);
+  int height = gdk_window_get_height(window);
+  if(width != 0 &amp;&amp; height !=0) {
+    gtk_im_context_focus_in(context);
+    local_context = context;
+  }
+  gdk_window_add_filter (window, event_filter, context);
+}
+</code></pre>
+
+<h3 id="编译成共享库">编译成共享库</h3>
+<pre><code>gcc -shared -o libsublime-imfix.so sublime_imfix.c  `pkg-config --libs --cflags gtk+-2.0` -fPIC
+</code></pre>
+
+<p>以下命令会打开sublime，查看是否可以输入中文</p>
+<pre><code>LD_PRELOAD=./libsublime-imfix.so subl
+</code></pre>
+
+<p>若可以，执行一下命令</p>
+<pre><code>sudo mv libsublime-imfix.so /opt/sublime_text/
+</code></pre>
+
+<h3 id="修改-usr-share-applications-sublime-text-desktop">修改/usr/share/applications/sublime-text.desktop</h3>
+<pre><code>sudo vi /usr/share/applications/sublime-text.desktop
+</code></pre>
+
+<p>我在进行这一步时，这个文件是不存在的，直接添加以下代码</p>
+<pre><code>[Desktop Entry]
+.........
+Exec=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text %F
+.........
+
+[Desktop Action Window]
+.........
+Exec=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text -n
+.........
+
+[Desktop Action Document]
+.........
+Exec=env LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so /opt/sublime_text/sublime_text --command new_file
+.........
+</code></pre>
+
+<h3 id="修改-usr-bin-subl">修改 /usr/bin/subl：</h3>
+
+<p>将里面的内容替换为如下代码（要用管理员权限）</p>
+<pre><code>
+# !/bin/sh
+export LD_PRELOAD=/opt/sublime_text/libsublime-imfix.so
+exec /opt/sublime_text/sublime_text &quot;$@&quot;
+</code></pre>
+
+<h3 id="一些基本配置">一些基本配置</h3>
+
+<p>在<code>Preferences - Settings - User</code>文件中里面加入。</p>
+<pre><code>  &quot;font_face&quot;: &quot;Dejavu Sans Mono&quot;, //设置字体
+  &quot;font_size&quot;: 12,  //设置字体大小
+  &quot;translate_tabs_to_spaces&quot;: true,  //Tab对齐转化为空格对齐，tab_size 控制转化比例
+  &quot;tab_size&quot;: 4,
+  &quot;trim_trailing_white_space_on_save&quot;: true, //自动移除行尾多余空格
+  &quot;save_on_focus_lost&quot;: true,  //窗口失去焦后立即保存文件
+  &quot;bold_folder_labels&quot;: true, //侧栏文件夹加粗
+</code></pre>
+
+<h2 id="一些好用的插件">一些好用的插件</h2>
+
+<ul>
+<li><p>Package Control</p>
+
+<p>用来安装其它插件，安装方法可以去<a href="https://packagecontrol.io/installation">Package Control</a>查看，注意Sublime Text的版本问题。</p></li>
+
+<li><p>Emmet</p>
+
+<p>前端神器</p></li>
+
+<li><p>FileHeader</p>
+
+<p>自动创建文件开头模板，并且会根据最后的保存时间修改更新时间</p></li>
+
+<li><p>AllAutocomplete</p>
+
+<p>Sublime Text 默认的 Autocomplete 功能只考虑当前的文件，而 AllAutocomplete 搜索所有打开的文件来寻找匹配的词。</p></li>
+
+<li><p>Terminal</p>
+
+<p>打开在当前文件所在的目录的终端，默认情况下，它设置按 Ctrl / Cmd + Shift + T 键的快捷方式打开终端。这也是<strong>打开上次关闭的文件</strong>的快捷键，你需要修改快捷键来兼容两个功能
+等等还有很多好用的插件，可以自行搜索</p></li>
+</ul>
+</div>
+                </div>
+                
+<div id="comment">
+    
+    <div id="disqus_thread"></div>
+    <script>
+        (function () {
+            var d = document, s = d.createElement('script');
+            s.src = '//hellopython.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+        Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+    
+</div>
+
+            </div>
+        </div>
+        <div class="footer">
+    <p>&copy; 笔记 2015
+        powered by <a href="http://github.com/go-xiaohei/pugo">PuGo</a> with <a href="http://notes.hellopython.cn" target="_blank">Cpure</a>
+    </p>
+    
+    
+    
+
+</div>
+    </div>
+</div>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script>
+    $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>
+</body>
+</html>

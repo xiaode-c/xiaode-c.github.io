@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Page 3 - 笔记</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="gdb">
+    <meta name="keywords" content="flask,python,pugo,golang,generator"/>
+    <meta name="description" content="记录学习笔记的小站"/>
+    <link href="/css/pure-min.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/blog.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/railscasts.css" type="text/css" rel="stylesheet" media="all"/>
+</head>
+<body class="post-list" data-perma="post-page-3">
+<div class="pure-g-r" id="layout">
+    <div class="sidebar pure-u">
+    <header class="header">
+        <div class="top">
+            <a href="/" class="profilepic">
+                <image src="http://7xo1su.com1.z0.glb.clouddn.com/avatar.png-avatar"/>
+            </a>
+        </div>
+        <hgroup>
+            <h1 class="brand-title">
+                <a href="/" class="brand-title">笔记</a>
+            </h1>
+            <h2 class="brand-tagline">Just For Learning</h2>
+        </hgroup>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="">
+                    <a href="/">文章</a>
+                </li>
+                <li class="">
+                    <a href="/archive">归档</a>
+                </li>
+                <li class="">
+                    <a href="/about">关于</a>
+                </li>
+            </ul>
+        </nav>
+
+
+    </header>
+</div>
+    <div class="pure-u-1">
+        <div class="content">
+                
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/3/21/Docker%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0%e4%b8%80.html">Docker学习笔记一</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-3-21</small>
+                        </div>
+                        <div class="post-description"><h2 id="docker的三个核心概念">docker的三个核心概念</h2>
+
+<ul>
+<li>镜像(Image)</li>
+<li>容器(Container)</li>
+<li>仓库(Repository)</li>
+</ul>
+
+<h3 id="镜像">镜像</h3>
+
+<p>Docker镜像类似于虚拟机镜像，相当于Docker引擎的只读模板，Docker可以在镜像的基础上创建容器。</p>
+
+<h3 id="容器">容器</h3>
+
+<p>Docker容器是完整的文件系统，docker就是用它来运行应用，类似于轻量级的虚拟机，可以将其启动、开始、停止、删除等。容器从镜像启动时，docker会在镜像的最上层创建一个可写层。</p>
+</div>
+                        <div class="more">
+                            <a href="/2016/3/21/Docker%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0%e4%b8%80.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/3/20/python%e5%8d%95%e4%be%8b%e6%a8%a1%e5%bc%8f.html">python单例模式</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-3-20</small>
+                        </div>
+                        <div class="post-description"><h2 id="单例模式">单例模式</h2>
+
+<p>单例模式是一种常见的设计模式，在他的核心结构里只包含一个被称为单例的特殊类。这种模式可以保证系统中的一个类只有一个实例，并易于外部访问，从而控制实例个数节约系统资源。</p>
+
+<h2 id="实现方式">实现方式</h2>
+
+<h3 id="使用-new-方法">使用<strong>new</strong>方法</h3>
+<pre><code>class Singleton(object):
+    def __new__(cls, *args, **kw):
+        if not hasattr(cls, '_instance'):
+            orig = super(Singleton, cls)
+            cls._instance = orig.__new__(cls, *args, **kw)
+        return cls._instance
+
+class MyClass(Singleton):
+    a = 1
+</code></pre>
+</div>
+                        <div class="more">
+                            <a href="/2016/3/20/python%e5%8d%95%e4%be%8b%e6%a8%a1%e5%bc%8f.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/3/19/python%e7%9a%84%e4%b8%89%e7%a7%8d%e6%96%b9%e6%b3%95.html">python的三种方法</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-3-19</small>
+                        </div>
+                        <div class="post-description"><h2 id="静态方法-类方法-实例方法的不同">静态方法、类方法、实例方法的不同</h2>
+
+<p>首先来看一个类</p>
+<pre><code>#coding:utf-8
+
+class Fun():
+    #实例方法
+    def fun(self, x):
+        print &quot;executing fun(%s, %s)&quot; % (self, x)
+    #类方法
+    @classmethod
+    def class_fun(cls, x):
+        print &quot;executing class_fun(%s, %s)&quot; % (cls, x)
+    
+    #静态方法
+    @staticmethod
+    def static_fun(x):
+        print &quot;executing static_fun(%s)&quot; % x
+
+f = Fun()
+
+</code></pre>
+
+<p>上面self指的是实例， cls指的是类，也就是说实例方法是绑定了实例的，因此必须由实例来调用它；而类方法是绑定这类的。而静态方法谁都没绑定，与类外的普通方法很像，只不过需要用f或Fun来调用。</p>
+
+<p>如下</p>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>column</th>
+<th>column</th>
+<th>column</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>f=Fun()</td>
+<td>f.fun(x)</td>
+<td>f.class_fun(x)</td>
+<td>f.statis_fun(x)</td>
+</tr>
+
+<tr>
+<td>Fun</td>
+<td>不可用</td>
+<td>Fun.class_fun(x)</td>
+<td>Fun.statis_fun(x)</td>
+</tr>
+</tbody>
+</table>
+</div>
+                        <div class="more">
+                            <a href="/2016/3/19/python%e7%9a%84%e4%b8%89%e7%a7%8d%e6%96%b9%e6%b3%95.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/3/19/sae%e4%b8%8amysql%e9%97%ae%e9%a2%98.html">sae上mysql问题</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-3-19</small>
+                        </div>
+                        <div class="post-description"><h2 id="mysql数据库问题">mysql数据库问题</h2>
+
+<p>我在sae上部署自己写的flask应用时，有时会出现<code>OperationalError: (OperationalError) (2006, 'MySQL server has gone away') 'SELECT entry.id AS entry_id, entry.name AS entry_name, entry.description AS entry_description, entry.content AS entry_content, entry.created AS entry_created \nFROM entry \nWHERE entry.id = %s \n LIMIT %s' (3, 1)</code>等一些问题。</p>
+
+<h2 id="可能原因">可能原因</h2>
+
+<p>在网上查了一下原因，有一下几点：</p>
+
+<ol>
+<li>MySQL 服务宕了</li>
+<li>MySQL连接超时</li>
+<li>mysql请求链接进程被主动kill</li>
+</ol>
+</div>
+                        <div class="more">
+                            <a href="/2016/3/19/sae%e4%b8%8amysql%e9%97%ae%e9%a2%98.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+        </div>
+        <div class="pagination pure-g">
+            <ul>
+                <li class="prev pure-u-1-3"><a href="/posts/2.html">← 更新的</a></li>
+                <li class="next pure-u-1-3"><a href="/posts/4.html">以前的 →</a></li>
+            </ul>
+        </div>
+        <div class="footer">
+    <p>&copy; 笔记 2015
+        powered by <a href="http://github.com/go-xiaohei/pugo">PuGo</a> with <a href="http://notes.hellopython.cn" target="_blank">Cpure</a>
+    </p>
+    
+    
+    
+
+</div>
+    </div>
+</div>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script>
+    $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>
+</body>
+</html>

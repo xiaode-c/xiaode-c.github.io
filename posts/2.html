@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Page 2 - 笔记</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="gdb">
+    <meta name="keywords" content="flask,python,pugo,golang,generator"/>
+    <meta name="description" content="记录学习笔记的小站"/>
+    <link href="/css/pure-min.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/blog.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/railscasts.css" type="text/css" rel="stylesheet" media="all"/>
+</head>
+<body class="post-list" data-perma="post-page-2">
+<div class="pure-g-r" id="layout">
+    <div class="sidebar pure-u">
+    <header class="header">
+        <div class="top">
+            <a href="/" class="profilepic">
+                <image src="http://7xo1su.com1.z0.glb.clouddn.com/avatar.png-avatar"/>
+            </a>
+        </div>
+        <hgroup>
+            <h1 class="brand-title">
+                <a href="/" class="brand-title">笔记</a>
+            </h1>
+            <h2 class="brand-tagline">Just For Learning</h2>
+        </hgroup>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="">
+                    <a href="/">文章</a>
+                </li>
+                <li class="">
+                    <a href="/archive">归档</a>
+                </li>
+                <li class="">
+                    <a href="/about">关于</a>
+                </li>
+            </ul>
+        </nav>
+
+
+    </header>
+</div>
+    <div class="pure-u-1">
+        <div class="content">
+                
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/5/2/ubuntu%e4%b8%8a%e4%bd%bf%e7%94%a8genymotion.html">ubuntu上使用genymotion</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-5-2</small>
+                        </div>
+                        <div class="post-description"><h2 id="安装virtuelbox">安装virtuelbox</h2>
+<pre><code>sudo apt-get install virtualbox-qt
+</code></pre>
+
+<p>使用时遇到以下问题</p>
+<pre><code>No suitable module for running kernel found
+</code></pre>
+
+<p>解决办法：</p>
+<pre><code>sudo apt-get install virtualbox-source module-assistant
+sudo m-a prepare
+sudo m-a a-i virtualbox-source
+sudo /etc/init.d/virtualbox restart
+</code></pre>
+</div>
+                        <div class="more">
+                            <a href="/2016/5/2/ubuntu%e4%b8%8a%e4%bd%bf%e7%94%a8genymotion.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/4/29/Zeal-linux%e7%89%88dash.html">Zeal-linux版dash</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-4-29</small>
+                        </div>
+                        <div class="post-description"><p>ZEAL 是一款离线文档浏览器,其灵感来自 OS X平台上的 Dash，目前支持 Window 和 Liunx。基于 QT5。</p>
+
+<h2 id="主要功能">主要功能：</h2>
+
+<ul>
+<li>可同时搜索多个文档</li>
+<li>不依赖网络</li>
+<li>GPL 协议开放源码</li>
+<li>Dash 中的文档都可以在 Zeal 中使用。</li>
+</ul>
+
+<h2 id="安装">安装</h2>
+
+<p>到<a href="zealdocs.org/download.html">zeal的官网download页面</a>，按照对应系统的方式安装</p>
+
+<p>我用的是linux mint ,也就是按照ubuntu的安装方法安装：</p>
+<pre><code>$ sudo add-apt-repository ppa:zeal-developers/ppa
+$ sudo apt-get update
+$ sudo apt-get install zeal
+</code></pre>
+</div>
+                        <div class="more">
+                            <a href="/2016/4/29/Zeal-linux%e7%89%88dash.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/4/29/ubuntu%e5%ae%89%e8%a3%85%e9%85%8d%e7%bd%aesublime_text.html">ubuntu安装配置sublime_text</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-4-29</small>
+                        </div>
+                        <div class="post-description"><p>以前不愿意在ubuntu上使用sublime-text,就是因为不能输入中文的问题，当时查了查，也没找到什么靠谱的方法。于是就搁置了，最近，偶然间看到一个解决方法，就试了试，竟然成功了，有可以享受sublime的速度了，所以我就记录一下。(<a href="http://www.sublimetext.com/">sublime text官网</a>)</p>
+
+<h2 id="安装sublime">安装sublime</h2>
+<pre><code>sudo add-apt-repository ppa:webupd8team/sublime-text-3
+sudo apt-get update
+sudo apt-get install sublime-text-installer
+</code></pre>
+
+<p>在安装完成之后我们就可以正常使用了，下面解决中文输入的问题。</p>
+</div>
+                        <div class="more">
+                            <a href="/2016/4/29/ubuntu%e5%ae%89%e8%a3%85%e9%85%8d%e7%bd%aesublime_text.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="post">
+                    <h3 class="post-header"><a href="/2016/3/25/welcome.html">Welcome</a></h3>
+                    <div class="post-info">
+                        <div class="post-meta">
+                        <small>2016-3-25</small>
+                        </div>
+                        <div class="post-description"><p>When you read the post, <code>PuGo</code> is running successfully.</p>
+
+<p>This post is generated from file <code>source/welcome.md</code>. You can learn it and try to write your own article with following guide.</p>
+
+<h4 id="front-matter">Front-Matter</h4>
+
+<p>Post&rsquo;s front-matter, including title, author etc, are created by first code section with block <strong>```toml &hellip;.. ```</strong>:</p>
+<pre><code class="language-toml"># post title, required
+title = &quot;Welcome&quot;
+
+# post slug, use to build permalink and url, required
+slug = &quot;welcome&quot;
+
+# post description, show in header meta
+desc = &quot;welcome to try pugo site generator&quot;
+
+# post created time, support
+# 2015-11-28, 2015-11-28 12:28, 2015-11-28 12:28:38
+date = &quot;2015-12-20 12:20:20&quot;
+
+# post updated time, optional
+# if null, use created time
+update_date = &quot;2015-12-20 12:30:30&quot;
+
+# author identifier, reference to meta [[author]], required
+author = &quot;pugo&quot;
+
+# tags, optional
+tags = [&quot;pugo&quot;]
+</code></pre>
+
+<h4 id="content">Content</h4>
+
+<p>The content is data after first block. All words will be parsed as markdown content.</p>
+<pre><code class="language-markdown">
+When you read the post, `PuGo` is running successfully.
+
+This post is generated from file `source/welcome.md`. You can learn it and try to write your own article with following guide.
+
+...... (markdown content)
+
+Markdown is a lightweight markup language with plain text formatting syntax designed
+so that it can be converted to HTML and many other formats using a tool by the same name.
+Markdown is often used to format readme files, for writing messages in online discussion forums,
+and to create rich text using a plain text editor.
+
+</code></pre>
+</div>
+                        <div class="more">
+                            <a href="/2016/3/25/welcome.html" class="btn pure-button pure-button-primary">继续阅读..</a>
+                        </div>
+                    </div>
+                </div>
+                
+        </div>
+        <div class="pagination pure-g">
+            <ul>
+                <li class="prev pure-u-1-3"><a href="/posts/1.html">← 更新的</a></li>
+                <li class="next pure-u-1-3"><a href="/posts/3.html">以前的 →</a></li>
+            </ul>
+        </div>
+        <div class="footer">
+    <p>&copy; 笔记 2015
+        powered by <a href="http://github.com/go-xiaohei/pugo">PuGo</a> with <a href="http://notes.hellopython.cn" target="_blank">Cpure</a>
+    </p>
+    
+    
+    
+
+</div>
+    </div>
+</div>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script>
+    $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>
+</body>
+</html>

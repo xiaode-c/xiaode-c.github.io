@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>docker学习笔记之镜像 - 笔记</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="gdb">
+    <meta name="keywords" content="flask,python,pugo,golang,generator"/>
+    <meta name="description" content="docker学习笔记之镜像"/>
+    <link href="/css/pure-min.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/blog.css" type="text/css" rel="stylesheet" media="all">
+    <link href="/css/railscasts.css" type="text/css" rel="stylesheet" media="all"/>
+</head>
+<body class="post" data-perma="docker学习笔记之镜像">
+<div class="pure-g-r" id="layout">
+    <div class="sidebar pure-u">
+    <header class="header">
+        <div class="top">
+            <a href="/" class="profilepic">
+                <image src="http://7xo1su.com1.z0.glb.clouddn.com/avatar.png-avatar"/>
+            </a>
+        </div>
+        <hgroup>
+            <h1 class="brand-title">
+                <a href="/" class="brand-title">笔记</a>
+            </h1>
+            <h2 class="brand-tagline">Just For Learning</h2>
+        </hgroup>
+        <nav class="nav">
+            <ul class="nav-list">
+                <li class="">
+                    <a href="/">文章</a>
+                </li>
+                <li class="">
+                    <a href="/archive">归档</a>
+                </li>
+                <li class="">
+                    <a href="/about">关于</a>
+                </li>
+            </ul>
+        </nav>
+
+
+    </header>
+</div>
+    <div class="pure-u-1">
+        <div class="content">
+            <div class="content-inner">
+                <div class="post">
+                <h1 class="post-header">docker学习笔记之镜像</h1>
+                <aside class="aside clearfix">
+                    
+                    <a class="tag"  href="/tags/docker.html">docker</a>
+                    
+                    
+                    <a class="author-name" href="http://notes.hellopython.cn" target="_blank">gdb</a>
+                </aside>
+
+                <div class="post-meta">
+                    <small>2016-5-10</small>
+                </div>
+                <div class="post-description"><h1 id="docker镜像">Docker镜像</h1>
+
+<h2 id="获取镜像">获取镜像</h2>
+
+<p>镜像下载的命令是：</p>
+<pre><code>docker pull NAME[:TAG]
+</code></pre>
+
+<p>NAME指镜像名，TAG指镜像标签,如不指定TAG，则下载最新镜像</p>
+
+<p>例如，以下两个命令是相同的：</p>
+<pre><code>sudo docker pull ubuntu
+sudo docker pull ubuntu:latest
+</code></pre>
+
+<p>也可以指定其它服务器的仓库</p>
+<pre><code>sudo docker pull dl.dockerpool.com:5000/ubuntu
+</code></pre>
+
+<p>其中的<code>dl.dockerpool.com:5000</code>就是注册服务器,默认的注册服务器是<code>registry.hub.docker.com</code>,可以不写</p>
+
+<!--more-->
+
+<h2 id="查看本地镜像">查看本地镜像</h2>
+<pre><code>sudo docker images
+</code></pre>
+
+<p><img src="http://7xo1su.com1.z0.glb.clouddn.com/docker-images.png" alt="docker-images" /></p>
+
+<ul>
+<li>REPOSITORY: 表示来自于那个仓库</li>
+<li>TAG： 镜像的标签</li>
+<li>IMAGE ID： 镜像的ID号(镜像唯一标识)</li>
+<li>CREATED： 镜像创建时间</li>
+<li>SIZE： 镜像大小</li>
+</ul>
+
+<h2 id="获取镜像详细信息">获取镜像详细信息</h2>
+<pre><code>sudo docker inspect &lt;镜像ID(前几个字符就行，只要能区分开)&gt;
+</code></pre>
+
+<h2 id="搜寻镜像">搜寻镜像</h2>
+
+<p><code>docker search</code>用来搜索
+参数：</p>
+<pre><code>    --automated=false   #仅显示自动常见的镜像
+    --s, --stars=&lt;num&gt;   #显示几星级的镜像
+</code></pre>
+
+<h2 id="创建镜像">创建镜像</h2>
+
+<h3 id="基于已有容器创建镜像">基于已有容器创建镜像</h3>
+
+<p>在对正在运行中的容器进行更改之后，可以使用以下命令创建一个<strong>新镜像</strong></p>
+<pre><code>docker commit [options] &lt;running_container&gt; [Resposity[:tag]]
+</code></pre>
+
+<p>选项：</p>
+<pre><code>    -a, --author=&quot;&quot;   作者
+    -m， --message=&quot;&quot;  提交说明信息
+    -p, --pause=true   提交时暂停容器运行
+</code></pre>
+
+<p>创建成功后，返回镜像ID</p>
+
+<h3 id="基于dockerfile创建镜像">基于Dockerfile创建镜像</h3>
+
+<p>Docker基本语法</p>
+<pre><code>FROM        指定某个镜像为基础镜像
+MAINTAINER     维护者
+RUN            要在创建中运行的命令,安装软件
+ADD            复制本地文件到镜像中
+EXPOSE      向外部开放端口
+CMD         容器启动后运行的命令，一个dockerfile只能有一个，多条只执行最后一条
+ENV            设置环境变量
+#            注释
+...
+</code></pre>
+
+<p>简单例子：</p>
+<pre><code># Dockerfile
+# This is my image
+FROM ubuntu:latest
+MAINTAINER your_name &lt;your_email&gt;
+RUN apt-get update
+RUN apt-get install vim
+RUN cd ~
+RUN touch README.txt
+// 暴露容器的80端口
+EXPOSE 80
+CMD echo hello world
+</code></pre>
+
+<p>Docker写完之后，在当前目录下执行build命令来构建镜像，<code>-t</code>用来添加标签</p>
+<pre><code>docker build -t=&quot;mydockerimage&quot; .
+</code></pre>
+
+<p>注意最后有一个点，指的是的Dockerfile所在目录，即当前目录下，可以换成其它</p>
+
+<h3 id="从本地导入">从本地导入</h3>
+
+<p>还有一种方法就是从本地导入镜像，可以使用<a href="http://openvz.org/Download/templates/precreated">下载openvz的模板</a>来创建</p>
+
+<p>然后使用import命令导入</p>
+<pre><code>sudo cat &lt;templates_name&gt; | docker import - &lt;myimage&gt;
+</code></pre>
+
+<h2 id="添加标签">添加标签</h2>
+
+<p><code>docker tag &lt;IMAGE&gt; &lt;tagname&gt;</code></p>
+
+<h2 id="镜像的导入和导出">镜像的导入和导出</h2>
+
+<h3 id="导出镜像">导出镜像</h3>
+<pre><code>docker save -o &lt;导出文件的名字.tar&gt; &lt;image_name&gt;
+</code></pre>
+
+<h3 id="导入镜像">导入镜像</h3>
+<pre><code>docker load --input &lt;载入文件名字.tar&gt;
+</code></pre>
+
+<h2 id="删除镜像">删除镜像</h2>
+
+<p><code>docker rmi &lt;tag&gt;</code> 只删除该标签的镜像
+<code>docekr rmi &lt;ID&gt;</code>  先删除该镜像的所有标签，然后删除镜像本身</p>
+
+<blockquote>
+<p>删除前，需要删除该镜像的所有容器，若要强行删，使用-f</p>
+</blockquote>
+
+<h2 id="上传镜像">上传镜像</h2>
+
+<p>使用push上传镜像到共享仓库，需要先注册docker hub账号</p>
+<pre><code>docker push &lt;image_name&gt;
+</code></pre>
+</div>
+                </div>
+                
+<div id="comment">
+    
+    <div id="disqus_thread"></div>
+    <script>
+        (function () {
+            var d = document, s = d.createElement('script');
+            s.src = '//hellopython.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+        Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    
+    
+</div>
+
+            </div>
+        </div>
+        <div class="footer">
+    <p>&copy; 笔记 2015
+        powered by <a href="http://github.com/go-xiaohei/pugo">PuGo</a> with <a href="http://notes.hellopython.cn" target="_blank">Cpure</a>
+    </p>
+    
+    
+    
+
+</div>
+    </div>
+</div>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/highlight.pack.js"></script>
+<script>
+    $(document).ready(function() {
+        $('pre code').each(function(i, block) {
+            hljs.highlightBlock(block);
+        });
+    });
+</script>
+</body>
+</html>
